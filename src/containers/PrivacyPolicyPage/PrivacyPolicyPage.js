@@ -37,6 +37,20 @@ const PrivacyPolicyPageComponent = props => {
         name: 'TermsOfServicePage',
       },
     },
+    {
+      text: intl.formatMessage({ id: 'PrivacyPolicyPage.ewTabTitle' }),
+      selected: false,
+      linkProps: {
+        name: 'ExperienceWaviers',
+      },
+    },
+    {
+      text: intl.formatMessage({ id: 'PrivacyPolicyPage.faqsTitle' }),
+      selected: false,
+      linkProps: {
+        name: 'FAQsPage',
+      },
+    },
   ];
   const siteTitle = config.siteTitle;
   const schemaTitle = intl.formatMessage({ id: 'PrivacyPolicyPage.schemaTitle' }, { siteTitle });

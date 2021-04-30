@@ -24,6 +24,7 @@ import css from './SearchPage.module.css';
 // Primary filters have their content in dropdown-popup.
 // With this offset we move the dropdown to the left a few pixels on desktop layout.
 const FILTER_DROPDOWN_OFFSET = -14;
+const MODAL_BREAKPOINT = 768; // Search is in modal on mobile layout
 
 const cleanSearchFromConflictingParams = (searchParams, sortConfig, filterConfig) => {
   // Single out filters that should disable SortBy when an active
@@ -168,6 +169,7 @@ class MainPanel extends Component {
       showAsModalMaxWidth,
       filterConfig,
       sortConfig,
+      isSearchMapOpenOnMobile
     } = this.props;
 
     const primaryFilters = filterConfig.filter(f => f.group === 'primary');
@@ -234,6 +236,9 @@ class MainPanel extends Component {
       ) : null;
     };
 
+    const isWindowDefined = typeof window !== 'undefined';
+    const isMobileLayout = isWindowDefined && window.innerWidth < MODAL_BREAKPOINT;
+
     const classes = classNames(rootClassName || css.searchResultContainer, className);
 
     return (
@@ -245,6 +250,8 @@ class MainPanel extends Component {
           resultsCount={totalItems}
           searchInProgress={searchInProgress}
           searchListingsError={searchListingsError}
+          onMapIconClick={onMapIconClick}
+          isSearchMapOpenOnMobile={isSearchMapOpenOnMobile}
           {...propsForSecondaryFiltersToggle}
         >
           {primaryFilters.map(config => {
@@ -293,7 +300,7 @@ class MainPanel extends Component {
             );
           })}
         </SearchFiltersMobile>
-        {isSecondaryFiltersOpen ? (
+        {/* {isSecondaryFiltersOpen ? (
           <div className={classNames(css.searchFiltersPanel)}>
             <SearchFiltersSecondary
               urlQueryParams={urlQueryParams}
@@ -318,26 +325,57 @@ class MainPanel extends Component {
               })}
             </SearchFiltersSecondary>
           </div>
-        ) : (
-          <div
-            className={classNames(css.listings, {
-              [css.newSearchInProgress]: !listingsAreLoaded,
-            })}
-          >
-            {searchListingsError ? (
-              <h2 className={css.error}>
-                <FormattedMessage id="SearchPage.searchError" />
-              </h2>
-            ) : null}
+        ) : ( */}
+        <div
+          className={classNames(css.listings, {
+            [css.newSearchInProgress]: !listingsAreLoaded,
+          })}
+        >
+          {searchListingsError ? (
+            <h2 className={css.error}>
+              <FormattedMessage id="SearchPage.searchError" />
+            </h2>
+          ) : null}
+          <div className={css.filterAndResults}>
+            {!isMobileLayout && (
+              <div className={classNames(css.searchFiltersPanel)}>
+                <SearchFiltersSecondary
+                  urlQueryParams={urlQueryParams}
+                  listingsAreLoaded={listingsAreLoaded}
+                  applyFilters={this.applyFilters}
+                  cancelFilters={this.cancelFilters}
+                  resetAll={this.resetAll}
+                  onClosePanel={() => this.setState({ isSecondaryFiltersOpen: false })}
+                >
+                  {secondaryFilters.map(config => {
+                    return (
+                      <FilterComponent
+                        key={`SearchFiltersSecondary.${config.id}`}
+                        idPrefix="SearchFiltersSecondary"
+                        filterConfig={config}
+                        urlQueryParams={urlQueryParams}
+                        initialValues={this.initialValues}
+                        getHandleChangedValueFn={this.getHandleChangedValueFn}
+                        showAsPopup={false}
+                      />
+                    );
+                  })}
+                </SearchFiltersSecondary>
+              </div>
+            )}
             <SearchResultsPanel
               className={css.searchListingsPanel}
               listings={listings}
               pagination={listingsAreLoaded ? pagination : null}
               search={searchParamsForPagination}
               setActiveListing={onActivateListing}
+              listingsAreLoaded={listingsAreLoaded}
+              resultsCount={totalItems}
+              searchInProgress={searchInProgress}
             />
           </div>
-        )}
+        </div>
+        )
       </div>
     );
   }
@@ -373,6 +411,7 @@ MainPanel.propTypes = {
   showAsModalMaxWidth: number.isRequired,
   filterConfig: propTypes.filterConfig,
   sortConfig: propTypes.sortConfig,
+  isSearchMapOpenOnMobile: bool.isRequired,
 
   history: shape({
     push: func.isRequired,

@@ -15,22 +15,29 @@ import {
   LayoutWrapperMain,
   LayoutWrapperFooter,
   Footer,
+  NamedLink
 } from '../../components';
 import { TopbarContainer } from '../../containers';
 
-import { closeListing, openListing, getOwnListingsById } from './ManageListingsPage.duck';
+import { closeListing, openListing, getOwnListingsById, checkInvited } from './ManageListingsPage.duck';
 import css from './ManageListingsPage.module.css';
 
 export class ManageListingsPageComponent extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { listingMenuOpen: null };
+    this.state = { listingMenuOpen: null, isInvited: false };
     this.onToggleMenu = this.onToggleMenu.bind(this);
   }
 
   onToggleMenu(listing) {
     this.setState({ listingMenuOpen: listing });
+  }
+
+  componentDidMount() {
+    this.props.checkIfInvited(this.props.email).then(res => {
+      this.setState({ isInvited: this.props.isAlreadyInvited || res });
+    });
   }
 
   render() {
@@ -67,19 +74,37 @@ export class ManageListingsPageComponent extends Component {
 
     const noResults =
       listingsAreLoaded && pagination.totalItems === 0 ? (
-        <h1 className={css.title}>
-          <FormattedMessage id="ManageListingsPage.noResults" />
-        </h1>
+        <div  className={css.title}>
+          <h1>
+            <FormattedMessage id="ManageListingsPage.noResults" />
+          </h1>
+          {this.state.isInvited && (
+            <NamedLink className={css.createListingLink} name="NewListingPage">
+              <span className={css.createListing}>
+                <FormattedMessage id="TopbarDesktop.createListing" />
+              </span>
+            </NamedLink>
+          )}
+        </div>
       ) : null;
 
-    const heading =
+      const heading =
       listingsAreLoaded && pagination.totalItems > 0 ? (
-        <h1 className={css.title}>
-          <FormattedMessage
-            id="ManageListingsPage.youHaveListings"
-            values={{ count: pagination.totalItems }}
-          />
-        </h1>
+        <div className={css.title}>
+          <h1>
+            <FormattedMessage
+              id="ManageListingsPage.youHaveListings"
+              values={{ count: pagination.totalItems }}
+            />
+          </h1>
+          {this.state.isInvited && (
+            <NamedLink className={css.createListingLink} name="NewListingPage">
+              <span className={css.createListing}>
+                <FormattedMessage id="TopbarDesktop.createListing" />
+              </span>
+            </NamedLink>
+          )}
+        </div>
       ) : (
         noResults
       );
@@ -199,6 +224,14 @@ const mapStateToProps = state => {
     closingListing,
     closingListingError,
   } = state.ManageListingsPage;
+  const { currentUser } = state.user;
+  const email = currentUser && currentUser.attributes.email;
+  const isAlreadyInvited =
+    currentUser &&
+    currentUser.attributes &&
+    currentUser.attributes.profile &&
+    currentUser.attributes.profile.publicData &&
+    currentUser.attributes.profile.publicData.hasBeenInvited;
   const listings = getOwnListingsById(state, currentPageResultIds);
   return {
     currentPageResultIds,
@@ -212,12 +245,15 @@ const mapStateToProps = state => {
     openingListingError,
     closingListing,
     closingListingError,
+    email,
+    isAlreadyInvited,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   onCloseListing: listingId => dispatch(closeListing(listingId)),
   onOpenListing: listingId => dispatch(openListing(listingId)),
+  checkIfInvited: email => dispatch(checkInvited(email)),
 });
 
 const ManageListingsPage = compose(

@@ -112,3 +112,22 @@
     border: 1px solid var(--marketplaceColorDark);
   }
 }
+
+.mapIcon {
+  /* Font */
+  @apply --marketplaceTinyFontStyles;
+  font-weight: var(--fontWeightMedium);
+
+  /* background map image */
+  background-image: url(./images/map_icon216x105.png);
+  background-size: cover;
+
+  border-radius: 3px;
+  width: 72px;
+  height: 40px;
+  padding: 12px 0;
+  margin: 0;
+  cursor: pointer;
+  margin-left: 8px;
+  text-align: center;
+}

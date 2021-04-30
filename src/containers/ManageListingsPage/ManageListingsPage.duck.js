@@ -252,6 +252,27 @@ export const closeListing = listingId => (dispatch, getState, sdk) => {
     });
 };
 
+export const checkInvited = email => (dispatch, getState, sdk) => {
+  return sdk.listings
+    .query({ 'fields.listing': 'publicData' })
+    .then(response => {
+      const usersAllowed = response.data.data.map(
+        ({
+          attributes: {
+            publicData: { inviteMails },
+          },
+        }) => inviteMails
+      );
+
+      const decode = str => str.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec));
+      const isInvited =
+        !!usersAllowed.find(user => decode(user).includes(email)) ||
+        ['skaushal@ioterra.com', 'ddelaveaga@ioterra.com', 'dprice@ioterra.com'].includes(email);
+      return isInvited;
+    })
+    .catch(e => {});
+};
+
 export const openListing = listingId => (dispatch, getState, sdk) => {
   dispatch(openListingRequest(listingId));
 

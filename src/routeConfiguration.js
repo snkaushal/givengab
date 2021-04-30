@@ -16,6 +16,7 @@ const CheckoutPage = loadable(() => import(/* webpackChunkName: "CheckoutPage" *
 const ContactDetailsPage = loadable(() => import(/* webpackChunkName: "ContactDetailsPage" */ './containers/ContactDetailsPage/ContactDetailsPage'));
 const EditListingPage = loadable(() => import(/* webpackChunkName: "EditListingPage" */ './containers/EditListingPage/EditListingPage'));
 const EmailVerificationPage = loadable(() => import(/* webpackChunkName: "EmailVerificationPage" */ './containers/EmailVerificationPage/EmailVerificationPage'));
+const ExperienceWaviersPage = loadable(() => import(/* webpackChunkName: "ExperienceWaviersPage" */ './containers/ExperienceWaviersPage/ExperienceWaviersPage'));
 const InboxPage = loadable(() => import(/* webpackChunkName: "InboxPage" */ './containers/InboxPage/InboxPage'));
 const LandingPage = loadable(() => import(/* webpackChunkName: "LandingPage" */ './containers/LandingPage/LandingPage'));
 const ListingPage = loadable(() => import(/* webpackChunkName: "ListingPage" */ /* webpackPrefetch: true */ './containers/ListingPage/ListingPage'));
@@ -32,6 +33,7 @@ const TermsOfServicePage = loadable(() => import(/* webpackChunkName: "TermsOfSe
 const TransactionPage = loadable(() => import(/* webpackChunkName: "TransactionPage" */ './containers/TransactionPage/TransactionPage'));
 const OrgsPage = loadable(() => import(/* webpackChunkName: "OrgsPage" */ './containers/OrgsPage/OrgsPage'));
 const ManageListingsPage = loadable(() => import(/* webpackChunkName: "OrgsPage" */ './containers/ManageListingsPage/ManageListingsPage'));
+const FAQsPage = loadable(() => import(/* webpackChunkName: "FAQsPage" */ './containers/FAQsPage/FAQsPage'));
 
 // Styleguide helps you to review current components and develop new ones
 const StyleguidePage = loadable(() => import(/* webpackChunkName: "StyleguidePage" */ './containers/StyleguidePage/StyleguidePage'));
@@ -300,6 +302,11 @@ const routeConfiguration = () => {
       component: PrivacyPolicyPage,
     },
     {
+      path: '/faqs',
+      name: 'FAQsPage',
+      component: FAQsPage,
+    },
+    {
       path: '/styleguide',
       name: 'Styleguide',
       component: StyleguidePage,
@@ -350,6 +357,11 @@ const routeConfiguration = () => {
       authPage: 'LoginPage',
       component: EmailVerificationPage,
       loadData: pageDataLoadingAPI.EmailVerificationPage.loadData,
+    },
+    {
+      path: '/experience-waviers',
+      name: 'ExperienceWaviers',
+      component: ExperienceWaviersPage,
     },
   ];
 };

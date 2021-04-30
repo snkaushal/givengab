@@ -4,30 +4,32 @@ import { InlineTextButton } from '../../components';
 
 import css from './ListingPage.module.css';
 
-const getCertificateInfo = (certificateOptions, key) => {
-  return certificateOptions.find(c => c.key === key);
-};
-
 const SectionHeading = props => {
   const {
+    priceTitle,
+    formattedPrice,
     richTitle,
-    listingCertificate,
-    certificateOptions,
+    category,
+    hostLink,
     showContactUser,
     onContactUser,
   } = props;
 
-  const certificate = getCertificateInfo(certificateOptions, listingCertificate);
-  const showCertificate = certificate && !certificate.hideFromListingInfo;
   return (
     <div className={css.sectionHeading}>
+      <div className={css.desktopPriceContainer}>
+        <div className={css.desktopPriceValue} title={priceTitle}>
+          {formattedPrice}
+        </div>
+      </div>
       <div className={css.heading}>
         <h1 className={css.title}>{richTitle}</h1>
         <div className={css.author}>
-          {showCertificate ? <span>{certificate.label}</span> : null}
+          {category}
+          <FormattedMessage id="ListingPage.hostedBy" values={{ name: hostLink }} />
           {showContactUser ? (
             <span className={css.contactWrapper}>
-              {showCertificate ? <span className={css.separator}>•</span> : null}
+              <span className={css.separator}>•</span>
               <InlineTextButton
                 rootClassName={css.contactLink}
                 onClick={onContactUser}

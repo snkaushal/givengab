@@ -59,7 +59,6 @@ const EditListingDescriptionPanel = props => {
             description,
             publicData: { links, expertiseLevel, localOrg, percentageToOrg },
           };
-
           onSubmit(updateValues);
         }}
         onChange={onChange}

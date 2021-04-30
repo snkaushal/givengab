@@ -93,6 +93,7 @@ export class BookingTimeFormComponent extends Component {
             lineItems,
             fetchLineItemsInProgress,
             fetchLineItemsError,
+            doneeCompany
           } = fieldRenderProps;
 
           const startTime = values && values.bookingStartTime ? values.bookingStartTime : null;
@@ -203,6 +204,9 @@ export class BookingTimeFormComponent extends Component {
                   <FormattedMessage id="BookingTimeForm.requestToBook" />
                 </PrimaryButton>
               </div>
+              <br />
+              <h2>Donee company</h2>
+              {doneeCompany}
             </Form>
           );
         }}
@@ -248,6 +252,7 @@ BookingTimeFormComponent.propTypes = {
   // for tests
   startDatePlaceholder: string,
   endDatePlaceholder: string,
+  doneeCompany: string,
 };
 
 const BookingTimeForm = compose(injectIntl)(BookingTimeFormComponent);

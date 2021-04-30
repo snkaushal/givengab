@@ -45,7 +45,8 @@
   /* Layout */
   display: flex;
   flex-direction: row;
-  padding: 16px 0 2px 0;
+  padding: 20px 22px;
+  justify-content: space-between;
 }
 
 .price {
@@ -95,6 +96,7 @@
   /* Font */
   @apply --marketplaceH3FontStyles;
   color: var(--matterColor);
+  font-size: 21px;
 
   /* Remove default margins from font */
   margin-top: 0;
@@ -106,7 +108,13 @@
   }
 }
 
-.certificateInfo {
+.description {
+  @apply --marketplaceTinyFontStyles;
+  color: var(--matterColor);
+  padding: 0 22px;
+}
+
+.authorInfo {
   /* Font */
   @apply --marketplaceTinyFontStyles;
   color: var(--matterColor);

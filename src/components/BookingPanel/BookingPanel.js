@@ -71,6 +71,7 @@ const BookingPanel = props => {
     lineItems,
     fetchLineItemsInProgress,
     fetchLineItemsError,
+    doneeCompany
   } = props;
 
   const price = listing.attributes.price;
@@ -148,6 +149,7 @@ const BookingPanel = props => {
             lineItems={lineItems}
             fetchLineItemsInProgress={fetchLineItemsInProgress}
             fetchLineItemsError={fetchLineItemsError}
+            doneeCompany={doneeCompany}
           />
         ) : null}
       </ModalInMobile>
@@ -208,6 +210,7 @@ BookingPanel.propTypes = {
   lineItems: array,
   fetchLineItemsInProgress: bool.isRequired,
   fetchLineItemsError: propTypes.error,
+  doneeCompany: string,
 
   // from withRouter
   history: shape({

@@ -190,7 +190,7 @@
   /* Layout */
   display: flex;
   flex-direction: column;
-  padding: 8px 0 2px 0;
+  padding: 20px 22px;
 }
 
 .price {

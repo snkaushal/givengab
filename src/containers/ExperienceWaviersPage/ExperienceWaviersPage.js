@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
 import { isScrollingDisabled } from '../../ducks/UI.duck';
-import { TopbarContainer } from '../../containers';
+import { TopbarContainer } from '..';
 import {
   Page,
   LayoutSideNavigation,
@@ -13,39 +13,39 @@ import {
   LayoutWrapperTopbar,
   LayoutWrapperFooter,
   Footer,
-  TermsOfService,
+  ExperienceWaviers,
 } from '../../components';
 import config from '../../config';
 
-import css from './TermsOfServicePage.module.css';
+import css from './ExperienceWaviersPage.module.css';
 
-const TermsOfServicePageComponent = props => {
+const ExperienceWaviersPageComponent = props => {
   const { scrollingDisabled, intl } = props;
 
   const tabs = [
     {
-      text: intl.formatMessage({ id: 'TermsOfServicePage.privacyTabTitle' }),
+      text: intl.formatMessage({ id: 'ExperienceWaviersPage.privacyTabTitle' }),
       selected: false,
       linkProps: {
         name: 'PrivacyPolicyPage',
       },
     },
     {
-      text: intl.formatMessage({ id: 'TermsOfServicePage.tosTabTitle' }),
-      selected: true,
+      text: intl.formatMessage({ id: 'ExperienceWaviersPage.tosTabTitle' }),
+      selected: false,
       linkProps: {
         name: 'TermsOfServicePage',
       },
     },
     {
-      text: intl.formatMessage({ id: 'TermsOfServicePage.ewTabTitle' }),
-      selected: false,
+      text: intl.formatMessage({ id: 'ExperienceWaviersPage.ewTabTitle' }),
+      selected: true,
       linkProps: {
         name: 'ExperienceWaviers',
       },
     },
     {
-      text: intl.formatMessage({ id: 'TermsOfServicePage.faqsTitle' }),
+      text: intl.formatMessage({ id: 'ExperienceWaviersPage.faqsTitle' }),
       selected: false,
       linkProps: {
         name: 'FAQsPage',
@@ -53,7 +53,10 @@ const TermsOfServicePageComponent = props => {
     },
   ];
   const siteTitle = config.siteTitle;
-  const schemaTitle = intl.formatMessage({ id: 'TermsOfServicePage.schemaTitle' }, { siteTitle });
+  const schemaTitle = intl.formatMessage(
+    { id: 'ExperienceWaviersPage.schemaTitle' },
+    { siteTitle }
+  );
   const schema = {
     '@context': 'http://schema.org',
     '@type': 'WebPage',
@@ -63,15 +66,15 @@ const TermsOfServicePageComponent = props => {
     <Page title={schemaTitle} scrollingDisabled={scrollingDisabled} schema={schema}>
       <LayoutSideNavigation>
         <LayoutWrapperTopbar>
-          <TopbarContainer currentPage="TermsOfServicePage" />
+          <TopbarContainer currentPage="ExperienceWaviersPage" />
         </LayoutWrapperTopbar>
         <LayoutWrapperSideNav tabs={tabs} />
         <LayoutWrapperMain>
           <div className={css.content}>
             <h1 className={css.heading}>
-              <FormattedMessage id="TermsOfServicePage.heading" />
+              <FormattedMessage id="ExperienceWaviersPage.heading" />
             </h1>
-            <TermsOfService />
+            <ExperienceWaviers />
           </div>
         </LayoutWrapperMain>
         <LayoutWrapperFooter>
@@ -84,7 +87,7 @@ const TermsOfServicePageComponent = props => {
 
 const { bool } = PropTypes;
 
-TermsOfServicePageComponent.propTypes = {
+ExperienceWaviersPageComponent.propTypes = {
   scrollingDisabled: bool.isRequired,
 
   // from injectIntl
@@ -97,9 +100,9 @@ const mapStateToProps = state => {
   };
 };
 
-const TermsOfServicePage = compose(
+const ExperienceWaviersPage = compose(
   connect(mapStateToProps),
   injectIntl
-)(TermsOfServicePageComponent);
+)(ExperienceWaviersPageComponent);
 
-export default TermsOfServicePage;
+export default ExperienceWaviersPage;

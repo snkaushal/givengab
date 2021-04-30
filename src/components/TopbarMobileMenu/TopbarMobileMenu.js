@@ -113,11 +113,13 @@ const TopbarMobileMenu = props => {
           <FormattedMessage id="TopbarMobileMenu.accountSettingsLink" />
         </NamedLink>
       </div>
-      <div className={css.footer}>
-        <NamedLink className={css.createNewListingLink} name="NewListingPage">
-          <FormattedMessage id="TopbarMobileMenu.newListingLink" />
-        </NamedLink>
-      </div>
+       {/* {isAuthenticated && (
+        <div className={css.footer}>
+          <NamedLink className={css.createNewListingLink} name="SearchPage">
+            <FormattedMessage id="TopbarDesktop.searchListings" />
+          </NamedLink>
+        </div>
+      )} */}
     </div>
   );
 };

@@ -14,31 +14,12 @@ const SearchFiltersPrimaryComponent = props => {
     listingsAreLoaded,
     resultsCount,
     searchInProgress,
-    isSecondaryFiltersOpen,
-    toggleSecondaryFiltersOpen,
-    selectedSecondaryFiltersCount,
+    onMapIconClick,
+    isSearchMapOpenOnMobile,
   } = props;
 
   const hasNoResult = listingsAreLoaded && resultsCount === 0;
   const classes = classNames(rootClassName || css.root, className);
-
-  const toggleSecondaryFiltersOpenButtonClasses =
-    isSecondaryFiltersOpen || selectedSecondaryFiltersCount > 0
-      ? css.searchFiltersPanelOpen
-      : css.searchFiltersPanelClosed;
-  const toggleSecondaryFiltersOpenButton = toggleSecondaryFiltersOpen ? (
-    <button
-      className={toggleSecondaryFiltersOpenButtonClasses}
-      onClick={() => {
-        toggleSecondaryFiltersOpen(!isSecondaryFiltersOpen);
-      }}
-    >
-      <FormattedMessage
-        id="SearchFiltersPrimary.moreFiltersButton"
-        values={{ count: selectedSecondaryFiltersCount }}
-      />
-    </button>
-  ) : null;
 
   return (
     <div className={classes}>
@@ -54,24 +35,21 @@ const SearchFiltersPrimaryComponent = props => {
           </div>
         ) : null}
         {sortByComponent}
+        <div className={css.mapIcon} onClick={() => onMapIconClick(true)}>
+          <FormattedMessage
+            id={
+              isSearchMapOpenOnMobile
+                ? 'SearchFiltersMobile.hideMap'
+                : 'SearchFiltersMobile.showMap'
+            }
+            className={css.mapIconText}
+          />
+        </div>
       </div>
 
       <div className={css.filters}>
         {children}
-        {toggleSecondaryFiltersOpenButton}
       </div>
-
-      {hasNoResult ? (
-        <div className={css.noSearchResults}>
-          <FormattedMessage id="SearchFiltersPrimary.noResults" />
-        </div>
-      ) : null}
-
-      {searchInProgress ? (
-        <div className={css.loadingResults}>
-          <FormattedMessage id="SearchFiltersPrimary.loadingResults" />
-        </div>
-      ) : null}
     </div>
   );
 };
@@ -97,6 +75,8 @@ SearchFiltersPrimaryComponent.propTypes = {
   toggleSecondaryFiltersOpen: func,
   selectedSecondaryFiltersCount: number,
   sortByComponent: node,
+  onMapIconClick: func.isRequired,
+  isSearchMapOpenOnMobile: bool,
 };
 
 const SearchFiltersPrimary = SearchFiltersPrimaryComponent;

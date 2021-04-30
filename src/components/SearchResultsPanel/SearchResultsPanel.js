@@ -3,10 +3,21 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { ListingCard, PaginationLinks } from '../../components';
+import { FormattedMessage } from '../../util/reactIntl';
 import css from './SearchResultsPanel.module.css';
 
 const SearchResultsPanel = props => {
-  const { className, rootClassName, listings, pagination, search, setActiveListing } = props;
+  const {
+    className,
+    rootClassName,
+    listings,
+    pagination,
+    search,
+    setActiveListing,
+    listingsAreLoaded,
+    resultsCount,
+    searchInProgress,
+  } = props;
   const classes = classNames(rootClassName || css.root, className);
 
   const paginationLinks =
@@ -29,8 +40,21 @@ const SearchResultsPanel = props => {
     `${panelLargeWidth / 3}vw`,
   ].join(', ');
 
+  const hasNoResult = listingsAreLoaded && resultsCount === 0;
+
   return (
     <div className={classes}>
+      {hasNoResult ? (
+        <div className={css.noSearchResults}>
+          <FormattedMessage id="SearchFiltersPrimary.noResults" />
+        </div>
+      ) : null}
+
+      {searchInProgress ? (
+        <div className={css.loadingResults}>
+          <FormattedMessage id="SearchFiltersPrimary.loadingResults" />
+        </div>
+      ) : null}
       <div className={css.listingCards}>
         {listings.map(l => (
           <ListingCard
@@ -57,7 +81,7 @@ SearchResultsPanel.defaultProps = {
   search: null,
 };
 
-const { array, node, object, string } = PropTypes;
+const { array, node, object, string, number, bool } = PropTypes;
 
 SearchResultsPanel.propTypes = {
   children: node,
@@ -66,6 +90,9 @@ SearchResultsPanel.propTypes = {
   pagination: propTypes.pagination,
   rootClassName: string,
   search: object,
+  listingsAreLoaded: bool,
+  resultsCount: number,
+  searchInProgress: bool,
 };
 
 export default SearchResultsPanel;

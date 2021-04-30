@@ -4,7 +4,7 @@
   position: relative;
   padding-top: 24px;
   padding-bottom: 17px;
-  border-bottom: 1px solid var(--matterColorNegative);
+  border-top: 1px solid var(--matterColorNegative);
 }
 
 .filterLabel,
@@ -19,6 +19,8 @@
 
 .filterLabel {
   color: var(--matterColorDark);
+  display: flex;
+  justify-content: space-between;
 }
 
 .filterLabelSelected {
@@ -32,6 +34,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .clearButton {

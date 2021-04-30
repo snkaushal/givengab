@@ -85,7 +85,7 @@
 }
 
 .searchFiltersPanel {
-  flex-grow: 1;
+  flex: 1 1 30%;
   display: flex;
   padding: 0 24px 24px 24px;
 
@@ -106,7 +106,7 @@
 }
 
 .searchListingsPanel {
-  flex-grow: 1;
+  flex: 1 1 70%;
 }
 
 .mapPanel {
@@ -167,4 +167,8 @@
   @media (--viewportLarge) {
     width: 37.5vw;
   }
+}
+
+.filterAndResults {
+  display: flex;
 }
