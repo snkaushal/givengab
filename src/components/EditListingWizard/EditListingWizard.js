@@ -26,6 +26,7 @@ import EditListingWizardTab, {
   LOCATION,
   PRICING,
   PHOTOS,
+  GROWCOMMUNITY,
 } from './EditListingWizardTab';
 import css from './EditListingWizard.module.css';
 
@@ -46,6 +47,7 @@ export const TABS = [
   PRICING,
   ...availabilityMaybe,
   PHOTOS,
+  GROWCOMMUNITY,
 ];
 
 // Tabs are horizontal in small screens
@@ -62,6 +64,8 @@ const tabLabel = (intl, tab) => {
     key = 'EditListingWizard.tabLabelFeatures';
   } else if (tab === POLICY) {
     key = 'EditListingWizard.tabLabelPolicy';
+  } else if (tab === GROWCOMMUNITY) {
+      key = 'EditListingWizard.tabLabelGrowCommunity';
   } else if (tab === LOCATION) {
     key = 'EditListingWizard.tabLabelLocation';
   } else if (tab === PRICING) {
@@ -96,11 +100,23 @@ const tabCompleted = (tab, listing) => {
 
   switch (tab) {
     case DESCRIPTION:
-      return !!(description && title);
+      return !!(
+        description &&
+        title &&
+        publicData &&
+        publicData.links &&
+        publicData.expertiseLevel
+      );
     case FEATURES:
-      return !!(publicData && publicData.yogaStyles);
-    case POLICY:
-      return !!(publicData && typeof publicData.rules !== 'undefined');
+      return !!(
+        publicData &&
+        publicData.style &&
+        publicData.activityType &&
+        publicData.industry &&
+        publicData.orgType
+      );
+    case GROWCOMMUNITY:
+      return !!publicData;
     case LOCATION:
       return !!(geolocation && publicData && publicData.location && publicData.location.address);
     case PRICING:

@@ -35,7 +35,6 @@ export class ProfileSettingsPageComponent extends Component {
   render() {
     const {
       currentUser,
-      currentUserListing,
       image,
       onImageUpload,
       onUpdateProfile,
@@ -158,7 +157,7 @@ export class ProfileSettingsPageComponent extends Component {
         <LayoutSingleColumn>
           <LayoutWrapperTopbar>
             <TopbarContainer currentPage="ProfileSettingsPage" />
-            <UserNav selectedPageName="ProfileSettingsPage" listing={currentUserListing} />
+            <UserNav selectedPageName="ProfileSettingsPage" />
           </LayoutWrapperTopbar>
           <LayoutWrapperMain>
             <div className={css.content}>
@@ -190,7 +189,6 @@ export class ProfileSettingsPageComponent extends Component {
 
 ProfileSettingsPageComponent.defaultProps = {
   currentUser: null,
-  currentUserListing: null,
   uploadImageError: null,
   updateProfileError: null,
   image: null,
@@ -198,7 +196,6 @@ ProfileSettingsPageComponent.defaultProps = {
 
 ProfileSettingsPageComponent.propTypes = {
   currentUser: propTypes.currentUser,
-  currentUserListing: propTypes.ownListing,
   image: shape({
     id: string,
     imageId: propTypes.uuid,
@@ -218,7 +215,7 @@ ProfileSettingsPageComponent.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { currentUser, currentUserListing } = state.user;
+  const { currentUser } = state.user;
   const {
     image,
     uploadImageError,
@@ -228,7 +225,6 @@ const mapStateToProps = state => {
   } = state.ProfileSettingsPage;
   return {
     currentUser,
-    currentUserListing,
     image,
     scrollingDisabled: isScrollingDisabled(state),
     updateInProgress,

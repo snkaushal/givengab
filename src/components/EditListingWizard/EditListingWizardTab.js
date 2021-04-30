@@ -11,6 +11,7 @@ import {
 import { ensureListing } from '../../util/data';
 import { createResourceLocatorString } from '../../util/routes';
 import {
+  EditListingGrowCommunityPanel,
   EditListingAvailabilityPanel,
   EditListingDescriptionPanel,
   EditListingFeaturesPanel,
@@ -22,6 +23,7 @@ import {
 
 import css from './EditListingWizard.module.css';
 
+export const GROWCOMMUNITY = 'growcommunity';
 export const AVAILABILITY = 'availability';
 export const DESCRIPTION = 'description';
 export const FEATURES = 'features';
@@ -276,6 +278,20 @@ const EditListingWizardTab = props => {
             onCompleteEditListingWizardTab(tab, values);
           }}
           onUpdateImageOrder={onUpdateImageOrder}
+        />
+      );
+    }
+    case GROWCOMMUNITY: {
+      const submitButtonTranslationKey = isNewListingFlow
+        ? 'EditListingWizard.saveNewGrowCommunity'
+        : 'EditListingWizard.saveEditGrowCommunity';
+      return (
+        <EditListingGrowCommunityPanel
+          {...panelProps(GROWCOMMUNITY)}
+          submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
+          onSubmit={values => {
+            onCompleteEditListingWizardTab(tab, values);
+          }}
         />
       );
     }

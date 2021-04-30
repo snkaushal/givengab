@@ -11,12 +11,6 @@ exports[`EditListingPageComponent matches snapshot 1`] = `
     mobileClassName="mobileTopbar"
     mobileRootClassName="mobileTopbar"
   />
-  <UserNav
-    className={null}
-    listing={null}
-    rootClassName={null}
-    selectedPageName="NewListingPage"
-  />
   <withViewport(injectIntl(EditListingWizard))
     className="wizard"
     currentUser={null}
@@ -79,6 +73,5 @@ exports[`EditListingPageComponent matches snapshot 1`] = `
     stripeAccountFetched={null}
     stripeAccountLinkError={null}
   />
-  <injectIntl(Footer) />
 </Page>
 `;

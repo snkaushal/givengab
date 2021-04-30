@@ -35,33 +35,56 @@ const EditListingFeaturesPanel = props => {
   const panelTitle = isPublished ? (
     <FormattedMessage
       id="EditListingFeaturesPanel.title"
-      values={{
-        listingTitle: (
-          <ListingLink listing={listing}>
-            <FormattedMessage id="EditListingFeaturesPanel.listingTitle" />
-          </ListingLink>
-        ),
-      }}
+      values={{ listingTitle: <ListingLink listing={listing} /> }}
     />
   ) : (
     <FormattedMessage id="EditListingFeaturesPanel.createListingTitle" />
   );
 
-  const yogaStyles = publicData && publicData.yogaStyles;
-  const initialValues = { yogaStyles };
+  const style = publicData && publicData.style;
+  const activityType = publicData && publicData.activityType;
+  const industry = publicData && publicData.industry;
+  const orgType = publicData && publicData.orgType;
+  const otherActivities = publicData && publicData.otherActivities;
+  const otherIndustries = publicData && publicData.otherIndustries;
+  const otherOrgType = publicData && publicData.otherOrgType;
+  const initialValues = {
+    style,
+    activityType,
+    industry,
+    orgType,
+    otherActivities,
+    otherIndustries,
+    otherOrgType,
+  };
 
   return (
     <div className={classes}>
       <h1 className={css.title}>{panelTitle}</h1>
       <EditListingFeaturesForm
         className={css.form}
-        name={FEATURES_NAME}
         initialValues={initialValues}
         onSubmit={values => {
-          const { yogaStyles = [] } = values;
+          const {
+            style = '',
+            activityType = [],
+            industry = [],
+            orgType = [],
+            otherActivities,
+            otherIndustries,
+            otherOrgType,
+          } = values;
 
           const updatedValues = {
-            publicData: { yogaStyles },
+            publicData: {
+              style,
+              activityType,
+              industry,
+              orgType,
+              otherActivities,
+              otherIndustries,
+              otherOrgType,
+            },
           };
           onSubmit(updatedValues);
         }}

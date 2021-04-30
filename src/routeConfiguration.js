@@ -31,6 +31,7 @@ const StripePayoutPage = loadable(() => import(/* webpackChunkName: "StripePayou
 const TermsOfServicePage = loadable(() => import(/* webpackChunkName: "TermsOfServicePage" */ './containers/TermsOfServicePage/TermsOfServicePage'));
 const TransactionPage = loadable(() => import(/* webpackChunkName: "TransactionPage" */ './containers/TransactionPage/TransactionPage'));
 const OrgsPage = loadable(() => import(/* webpackChunkName: "OrgsPage" */ './containers/OrgsPage/OrgsPage'));
+const ManageListingsPage = loadable(() => import(/* webpackChunkName: "OrgsPage" */ './containers/ManageListingsPage/ManageListingsPage'));
 
 // Styleguide helps you to review current components and develop new ones
 const StyleguidePage = loadable(() => import(/* webpackChunkName: "StyleguidePage" */ './containers/StyleguidePage/StyleguidePage'));
@@ -116,7 +117,6 @@ const routeConfiguration = () => {
       name: 'EditListingPage',
       auth: true,
       component: EditListingPage,
-      extraProps: { allowOnlyOneListing: true },
       loadData: pageDataLoadingAPI.EditListingPage.loadData,
     },
     {
@@ -212,6 +212,14 @@ const routeConfiguration = () => {
       loadData: params =>
         pageDataLoadingAPI.TransactionPage.loadData({ ...params, transactionRole: 'customer' }),
       setInitialValues: pageDataLoadingAPI.TransactionPage.setInitialValues,
+    },
+    {
+      path: '/listings',
+      name: 'ManageListingsPage',
+      auth: true,
+      authPage: 'LoginPage',
+      component: props => <ManageListingsPage {...props} />,
+      loadData: pageDataLoadingAPI.ManageListingsPage.loadData,
     },
     {
       path: '/sale/:id',

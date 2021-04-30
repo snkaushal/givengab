@@ -1,5 +1,0 @@
-@import '../../styles/propertySets.css';
-
-.defaultLinkStyle {
-  @apply --marketplaceLinkStyles;
-}

@@ -50,6 +50,7 @@ describe('Application - node environment', () => {
       '/account/change-password': loginPath,
       '/account/payments': loginPath,
       '/verify-email': loginPath,
+      '/listings': loginPath,
     };
     forEach(urlRedirects, (redirectPath, url) => {
       const context = {};

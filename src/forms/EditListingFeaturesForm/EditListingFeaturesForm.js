@@ -1,13 +1,15 @@
 import React from 'react';
 import { bool, func, shape, string } from 'prop-types';
+import { compose } from 'redux';
 import classNames from 'classnames';
 import { Form as FinalForm } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
-import { FormattedMessage } from '../../util/reactIntl';
+import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
 import { findOptionsForSelectFilter } from '../../util/search';
 import { propTypes } from '../../util/types';
 import config from '../../config';
-import { Button, FieldCheckboxGroup, Form } from '../../components';
+import { Button, FieldCheckboxGroup, Form, FieldTextInput } from '../../components';
+import CustomCategorySelectFieldMaybe from './CustomCategorySelectFieldMaybe';
 
 import css from './EditListingFeaturesForm.module.css';
 
@@ -21,14 +23,13 @@ const EditListingFeaturesFormComponent = props => (
         ready,
         rootClassName,
         className,
-        name,
         handleSubmit,
         pristine,
         saveActionMsg,
         updated,
         updateInProgress,
         fetchErrors,
-        filterConfig,
+        intl,
       } = formRenderProps;
 
       const classes = classNames(rootClassName || css.root, className);
@@ -49,13 +50,70 @@ const EditListingFeaturesFormComponent = props => (
         </p>
       ) : null;
 
-      const options = findOptionsForSelectFilter('yogaStyles', filterConfig);
+      const giverTypes = findOptionsForSelectFilter('style', config.custom.filters);
+      const activites = findOptionsForSelectFilter('activityType', config.custom.filters);
+      const industries = findOptionsForSelectFilter('industry', config.custom.filters);
+      const organizationTypes = findOptionsForSelectFilter('orgType', config.custom.filters);
       return (
         <Form className={classes} onSubmit={handleSubmit}>
           {errorMessage}
           {errorMessageShowListing}
 
-          <FieldCheckboxGroup className={css.features} id={name} name={name} options={options} />
+          <CustomCategorySelectFieldMaybe
+            id="style"
+            name="style"
+            options={giverTypes}
+            intl={intl}
+            label="Style of your give"
+            requiredMessage="Style of your give is required"
+            placeholder="Style of your give"
+          />
+
+          <FieldCheckboxGroup
+            className={css.features}
+            id="activityType"
+            name="activityType"
+            label="What is the type of activity?"
+            options={activites}
+          />
+          <FieldTextInput
+            id="otherActivities"
+            name="otherActivities"
+            className={css.otherTags}
+            type="text"
+            label="Other Activities"
+            placeholder="Add any other activities separated by commas"
+          />
+          <FieldCheckboxGroup
+            className={css.features}
+            id="industry"
+            name="industry"
+            label="Which industry does this give belong to?"
+            options={industries}
+          />
+          <FieldTextInput
+            id="otherIndustries"
+            name="otherIndustries"
+            className={css.otherTags}
+            type="text"
+            label="Other industries"
+            placeholder="Add any other activities separated by commas"
+          />
+          <FieldCheckboxGroup
+            className={css.features}
+            id="orgType"
+            name="orgType"
+            label="What is the donee organization type?"
+            options={organizationTypes}
+          />
+          <FieldTextInput
+            id="otherOrgType"
+            name="otherOrgType"
+            className={css.otherTags}
+            type="text"
+            label="Other organization types"
+            placeholder="Add any other organization types separated by commas"
+          />
 
           <Button
             className={css.submitButton}
@@ -81,8 +139,8 @@ EditListingFeaturesFormComponent.defaultProps = {
 
 EditListingFeaturesFormComponent.propTypes = {
   rootClassName: string,
+  intl: intlShape.isRequired,
   className: string,
-  name: string.isRequired,
   onSubmit: func.isRequired,
   saveActionMsg: string.isRequired,
   disabled: bool.isRequired,
@@ -93,9 +151,8 @@ EditListingFeaturesFormComponent.propTypes = {
     showListingsError: propTypes.error,
     updateListingError: propTypes.error,
   }),
-  filterConfig: propTypes.filterConfig,
 };
 
 const EditListingFeaturesForm = EditListingFeaturesFormComponent;
 
-export default EditListingFeaturesForm;
+export default compose(injectIntl)(EditListingFeaturesForm);

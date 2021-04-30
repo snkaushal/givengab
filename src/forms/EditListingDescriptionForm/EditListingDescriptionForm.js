@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { maxLength, required, composeValidators } from '../../util/validators';
 import { Form, Button, FieldTextInput } from '../../components';
-import CustomCertificateSelectFieldMaybe from './CustomCertificateSelectFieldMaybe';
+import CustomCategorySelectFieldMaybe from './CustomCategorySelectFieldMaybe';
 
 import css from './EditListingDescriptionForm.module.css';
 
@@ -18,7 +18,6 @@ const EditListingDescriptionFormComponent = props => (
     {...props}
     render={formRenderProps => {
       const {
-        certificateOptions,
         className,
         disabled,
         ready,
@@ -57,6 +56,17 @@ const EditListingDescriptionFormComponent = props => (
         id: 'EditListingDescriptionForm.descriptionRequired',
       });
 
+      const linksMessage = intl.formatMessage({
+        id: 'EditListingDescriptionForm.links',
+      });
+      const linksPlaceholderMessage = intl.formatMessage({
+        id: 'EditListingDescriptionForm.linksPlaceholder',
+      });
+
+      const linksRequiredMessage = intl.formatMessage({
+        id: 'EditListingDescriptionForm.linksRequired',
+      });
+
       const { updateListingError, createListingDraftError, showListingsError } = fetchErrors || {};
       const errorMessageUpdateListing = updateListingError ? (
         <p className={css.error}>
@@ -81,6 +91,13 @@ const EditListingDescriptionFormComponent = props => (
       const submitReady = (updated && pristine) || ready;
       const submitInProgress = updateInProgress;
       const submitDisabled = invalid || disabled || submitInProgress;
+
+      const options = [
+        { key: 'novice', label: 'Novice' },
+        { key: 'amateur-enthusiast', label: 'Amateur / Enthusiast' },
+        { key: 'professional', label: 'Professional' },
+        { key: 'renowned', label: 'Renowned' },
+      ];
 
       return (
         <Form className={classes} onSubmit={handleSubmit}>
@@ -109,11 +126,43 @@ const EditListingDescriptionFormComponent = props => (
             validate={composeValidators(required(descriptionRequiredMessage))}
           />
 
-          <CustomCertificateSelectFieldMaybe
-            id="certificate"
-            name="certificate"
-            certificateOptions={certificateOptions}
+          <FieldTextInput
+            id="links"
+            name="links"
+            className={css.description}
+            type="text"
+            label={linksMessage}
+            placeholder={linksPlaceholderMessage}
+            validate={composeValidators(required(linksRequiredMessage))}
+          />
+
+          <CustomCategorySelectFieldMaybe
+            id="expertiseLevel"
+            name="expertiseLevel"
+            options={options}
             intl={intl}
+            label="Expertise level"
+            requiredMessage="Expertise level is required"
+          />
+
+          <FieldTextInput
+            id="localOrg"
+            name="localOrg"
+            className={css.description}
+            type="text"
+            label="Which local organization will this give support?"
+            placeholder="Which local organization will this give support?"
+            validate={required('Supported local organization of your give is required')}
+          />
+
+          <FieldTextInput
+            id="percentageToOrg"
+            name="percentageToOrg"
+            className={css.description}
+            type="number"
+            label="What percentage of this gives proceeds will be sent to the above organization?"
+            placeholder="What percentage of this gives proceeds will be sent to the above organization?"
+            validate={required('This field is required')}
           />
 
           <Button
@@ -147,12 +196,6 @@ EditListingDescriptionFormComponent.propTypes = {
     showListingsError: propTypes.error,
     updateListingError: propTypes.error,
   }),
-  certificateOptions: arrayOf(
-    shape({
-      key: string.isRequired,
-      label: string.isRequired,
-    })
-  ),
 };
 
 export default compose(injectIntl)(EditListingDescriptionFormComponent);

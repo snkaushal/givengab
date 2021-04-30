@@ -1,0 +1,184 @@
+.root {
+  /* Dimensions */
+  width: 100%;
+  height: auto;
+
+  /* Layout */
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  padding-top: 1px;
+
+  @media (--viewportMedium) {
+    padding-top: 2px;
+  }
+}
+
+.error {
+  color: var(--failColor);
+}
+
+.formMargins {
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 32px;
+  }
+}
+
+.title {
+  composes: formMargins;
+}
+
+.description {
+  composes: formMargins;
+  flex-shrink: 0;
+}
+
+.category {
+  composes: formMargins;
+}
+
+.submitButton {
+  margin-top: auto;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+
+  @media (--viewportLarge) {
+    display: inline-block;
+    width: 241px;
+    margin-top: 100px;
+  }
+}
+
+.features {
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 32px;
+  }
+}
+
+.imagesField {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.thumbnail {
+  margin: 24px 0 0 0;
+
+  @media (--viewportLarge) {
+    width: calc(50% - 12px);
+    margin: 0 24px 24px 0;
+
+    &:nth-child(even) {
+      margin: 0 0 24px 0;
+    }
+  }
+}
+
+.addImageWrapper {
+  float: left;
+  position: relative;
+  width: 100%;
+  margin: 24px 0 0 0;
+  overflow: hidden;
+
+  &::after {
+    content: '.';
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+
+  @media (--viewportLarge) {
+    width: calc(50% - 12px);
+    margin: 0 0 24px 0;
+  }
+}
+
+/* Firefox doesn't support image aspect ratio inside flexbox */
+.aspectRatioWrapper {
+  padding-bottom: calc(100% * (2 / 3));
+}
+
+.addImage {
+  /* Layout */
+  /* Maintain aspect ratio */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+
+  /* Colors */
+  background-color: var(--matterColorLight);
+
+  @media (--viewportLarge) {
+    background-color: var(--matterColorBright);
+  }
+
+  border-style: dashed;
+  border-color: var(--matterColorNegative);
+  border-width: 2px;
+  border-radius: 2px;
+
+  /* Behaviour */
+  cursor: pointer;
+  transition: var(--transitionStyleButton);
+
+  &:hover {
+    border-color: var(--matterColorAnti);
+  }
+}
+
+.chooseImageText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chooseImage {
+  @apply --marketplaceH4FontStyles;
+  color: var(--matterColor);
+  font-weight: var(--fontWeightSemiBold);
+
+  margin-top: 0;
+  margin-bottom: 0;
+
+  @media (--viewportLarge) {
+    font-weight: var(--fontWeightSemiBold);
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.imageTypes {
+  @apply --marketplaceTinyFontStyles;
+  color: var(--matterColorAnti);
+
+  margin-top: 0;
+  margin-bottom: 0;
+
+  @media (--viewportLarge) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.addImageInput {
+  display: none;
+}
+
+.imageRequiredWrapper {
+  width: 100%;
+  clear: both;
+}

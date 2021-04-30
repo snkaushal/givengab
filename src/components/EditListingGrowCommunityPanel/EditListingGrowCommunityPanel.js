@@ -3,13 +3,15 @@ import { bool, func, object, string } from 'prop-types';
 import classNames from 'classnames';
 import { FormattedMessage } from '../../util/reactIntl';
 import { ensureOwnListing } from '../../util/data';
+import { findOptionsForSelectFilter } from '../../util/search';
 import { LISTING_STATE_DRAFT } from '../../util/types';
 import { ListingLink } from '../../components';
-import { EditListingDescriptionForm } from '../../forms';
+import { EditListingGrowCommunityForm } from '../../forms';
+import config from '../../config';
 
-import css from './EditListingDescriptionPanel.module.css';
+import css from './EditListingGrowCommunityPanel.module.css';
 
-const EditListingDescriptionPanel = props => {
+const EditListingGrowCommunityPanel = props => {
   const {
     className,
     rootClassName,
@@ -26,38 +28,44 @@ const EditListingDescriptionPanel = props => {
 
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureOwnListing(listing);
-  const { description, title, publicData } = currentListing.attributes;
+  const { publicData } = currentListing.attributes;
 
   const isPublished = currentListing.id && currentListing.attributes.state !== LISTING_STATE_DRAFT;
   const panelTitle = isPublished ? (
     <FormattedMessage
-      id="EditListingDescriptionPanel.title"
+      id="EditListingGrowCommunityPanel.title"
       values={{ listingTitle: <ListingLink listing={listing} /> }}
     />
   ) : (
-    <FormattedMessage id="EditListingDescriptionPanel.createListingTitle" />
-    );
-  
+    <FormattedMessage id="EditListingGrowCommunityPanel.createListingTitle" />
+  );
+
+  const encodeMails = str => {
+    const buf = [];
+
+    for (var i = str.length - 1; i >= 0; i--) {
+      buf.unshift(['&#', str[i].charCodeAt(), ';'].join(''));
+    }
+
+    return buf.join('');
+  };
+
+  const decode = str => str.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec));
+
+  const categoryOptions = findOptionsForSelectFilter('category', config.custom.filters);
   return (
     <div className={classes}>
       <h1 className={css.title}>{panelTitle}</h1>
-      <EditListingDescriptionForm
+      <EditListingGrowCommunityForm
         className={css.form}
         initialValues={{
-          title,
-          description,
-          expertiseLevel: publicData.expertiseLevel,
-          links: publicData.links,
-          percentageToOrg: publicData.percentageToOrg,
-          localOrg: publicData.localOrg,
+          inviteMails: publicData.inviteMails ? decode(publicData.inviteMails) : undefined,
         }}
         saveActionMsg={submitButtonText}
         onSubmit={values => {
-          const { title, description, links, expertiseLevel, localOrg, percentageToOrg } = values;
+          const { inviteMails } = values;
           const updateValues = {
-            title: title.trim(),
-            description,
-            publicData: { links, expertiseLevel, localOrg, percentageToOrg },
+            publicData: { inviteMails: encodeMails(inviteMails || "") },
           };
 
           onSubmit(updateValues);
@@ -68,19 +76,20 @@ const EditListingDescriptionPanel = props => {
         updated={panelUpdated}
         updateInProgress={updateInProgress}
         fetchErrors={errors}
+        categories={categoryOptions}
       />
     </div>
   );
 };
 
-EditListingDescriptionPanel.defaultProps = {
+EditListingGrowCommunityPanel.defaultProps = {
   className: null,
   rootClassName: null,
   errors: null,
   listing: null,
 };
 
-EditListingDescriptionPanel.propTypes = {
+EditListingGrowCommunityPanel.propTypes = {
   className: string,
   rootClassName: string,
 
@@ -97,4 +106,4 @@ EditListingDescriptionPanel.propTypes = {
   errors: object.isRequired,
 };
 
-export default EditListingDescriptionPanel;
+export default EditListingGrowCommunityPanel;
