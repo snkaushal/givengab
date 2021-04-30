@@ -117,6 +117,205 @@ export const filters = [
     },
   },
   {
+    id: 'orgType',
+    label: 'Donee Organization Type',
+    type: 'SelectMultipleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_orgType'],
+    config: {
+      searchMode: 'has_any',
+      options: [
+        {
+          key: 'not-incorporated',
+          label: 'Not incorporated',
+        },
+        {
+          key: 'non-profit',
+          label: 'Non profit',
+        },
+        {
+          key: 'startup',
+          label: 'Startup',
+        },
+        {
+          key: 'corporation',
+          label: 'Corporation',
+        },
+        {
+          key: 'restaurant',
+          label: 'Restaurant',
+        },
+        {
+          key: 'bar-coffee shop',
+          label: 'Bar / Coffee Shop',
+        },
+        {
+          key: 'educational',
+          label: 'Educational',
+        },
+        {
+          key: 'government',
+          label: 'Government',
+        },
+        {
+          key: 'political',
+          label: 'Political',
+        },
+        {
+          key: 'individual',
+          label: 'Individual',
+        },
+        {
+          key: 'gofundme',
+          label: 'GoFundMe',
+        },
+        {
+          key: 'smallbusiness',
+          label: 'Small business',
+        },
+      ],
+    },
+  },
+  {
+    id: 'industry',
+    label: "Giver's Industry",
+    type: 'SelectMultipleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_industry'],
+    config: {
+      searchMode: 'has_any',
+      options: [
+        {
+          key: 'law',
+          label: 'Law',
+        },
+        {
+          key: 'engineering',
+          label: 'Engineering',
+        },
+        {
+          key: 'community-development',
+          label: 'Community Development',
+        },
+        {
+          key: 'entrepreneurship',
+          label: 'Entrepreneurship',
+        },
+        {
+          key: 'executive',
+          label: 'Executive',
+        },
+        {
+          key: 'education',
+          label: 'Education',
+        },
+        {
+          key: 'public-services',
+          label: 'Public Services',
+        },
+        {
+          key: 'medical',
+          label: 'Medical',
+        },
+        {
+          key: 'sciences',
+          label: 'Sciences',
+        },
+        {
+          key: 'technology',
+          label: 'Technology',
+        },
+        {
+          key: 'construction',
+          label: 'Construction',
+        },
+        {
+          key: 'food-entertainment',
+          label: 'Food & Entertainment',
+        },
+        {
+          key: 'music-and-art',
+          label: 'Music and Art',
+        },
+        {
+          key: 'politics',
+          label: 'Politics',
+        },
+        {
+          key: 'fitness',
+          label: 'Fitness',
+        },
+      ],
+    },
+  },
+  {
+    id: 'activityType',
+    label: 'Activity Type',
+    type: 'SelectMultipleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_activityType'],
+    config: {
+      searchMode: 'has_any',
+      options: [
+        {
+          key: 'drinks',
+          label: 'Drinks',
+        },
+        {
+          key: 'meals',
+          label: 'Meals',
+        },
+        {
+          key: 'coffee',
+          label: 'Coffee',
+        },
+        {
+          key: 'outdoors',
+          label: 'Outdoors',
+        },
+        {
+          key: 'active',
+          label: 'Active',
+        },
+        {
+          key: 'career',
+          label: 'Career',
+        },
+        {
+          key: 'music',
+          label: 'Music',
+        },
+        {
+          key: 'hobby',
+          label: 'Hobby',
+        },
+        {
+          key: 'adrenaline',
+          label: 'Adrenaline',
+        },
+      ],
+    },
+  },
+  {
+    id: 'style',
+    label: "Giver's Style",
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_style'],
+    config: {
+      options: [
+        {
+          key: 'casual',
+          label: 'Casual',
+        },
+        {
+          key: 'professional',
+          label: 'Professional',
+        },
+      ],
+    },
+  },
+  {
     id: 'certificate',
     label: 'Certificate',
     type: 'SelectSingleFilter',
@@ -131,6 +330,76 @@ export const filters = [
         { key: 'none', label: 'None', hideFromFilters: true, hideFromListingInfo: true },
         { key: '200h', label: 'Registered yoga teacher 200h' },
         { key: '500h', label: 'Registered yoga teacher 500h' },
+      ],
+    },
+  },
+];
+
+export const customFilters = [
+  {
+    id: 'cities',
+    label: 'City',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['cities'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        {
+          key: 'reno-tahoe',
+          label: 'Reno / Tahoe',
+        },
+        {
+          key: 'other',
+          label: 'Other',
+        },
+      ],
+    },
+  },
+  {
+    id: 'objectives',
+    label: 'Objectives',
+    type: 'SelectMultipleFilter',
+    group: 'secondary',
+    queryParamNames: ['objectives'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        {
+          key: 'support_local_organizations_financially',
+          label: 'Support local organizations financially',
+        },
+        { key: 'network_with_local_peers', label: 'Network with local peers' },
+        {
+          key: 'learn_more_about_a_specific_profession',
+          label: 'Learn more about a specific profession',
+        },
+        {
+          key: "see_reno/tahoe_from_another's_perspective",
+          label: "See Reno/Tahoe from another's perspective",
+        },
+        { key: 'explore_new_hobbies', label: 'Explore new hobbies' },
+        { key: 'shadow_professionals', label: 'Shadow professionals' },
+        { key: 'meet_interesting_people', label: 'Meet interesting people' },
+        {
+          key: 'raise_money_for_an_organization',
+          label: 'Raise money for an organization',
+        },
+        { key: 'mentor_others', label: 'Mentor Others' },
+        {
+          key: 'find_potential_partners_or_employees',
+          label: 'Find potential partners or employees',
+        },
+        {
+          key: 'have_fun_and_learn_about_the_community',
+          label: 'Have fun and learn about the community',
+        },
       ],
     },
   },

@@ -30,6 +30,7 @@ const SearchPage = loadable(() => import(/* webpackChunkName: "SearchPage" */ /*
 const StripePayoutPage = loadable(() => import(/* webpackChunkName: "StripePayoutPage" */ './containers/StripePayoutPage/StripePayoutPage'));
 const TermsOfServicePage = loadable(() => import(/* webpackChunkName: "TermsOfServicePage" */ './containers/TermsOfServicePage/TermsOfServicePage'));
 const TransactionPage = loadable(() => import(/* webpackChunkName: "TransactionPage" */ './containers/TransactionPage/TransactionPage'));
+const OrgsPage = loadable(() => import(/* webpackChunkName: "OrgsPage" */ './containers/OrgsPage/OrgsPage'));
 
 // Styleguide helps you to review current components and develop new ones
 const StyleguidePage = loadable(() => import(/* webpackChunkName: "StyleguidePage" */ './containers/StyleguidePage/StyleguidePage'));
@@ -218,6 +219,11 @@ const routeConfiguration = () => {
       auth: true,
       authPage: 'LoginPage',
       component: props => <NamedRedirect name="SaleDetailsPage" params={{ ...props.params }} />,
+    },
+    {
+      path: '/orgs',
+      name: 'OrgsPage',
+      component: OrgsPage,
     },
     {
       path: '/sale/:id/details',

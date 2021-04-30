@@ -17,12 +17,12 @@
 :root {
   /* ================ Colors ================ */
 
-  --marketplaceColor: #0095b3;
-  --marketplaceColorLight: #00bfe6;
-  --marketplaceColorDark: #006a80;
+  --marketplaceColor: #467b9d;
+  --marketplaceColorLight: #467c9d20;
+  --marketplaceColorDark: #467b9d;
 
   /* Used with inline CSS SVGs */
-  --marketplaceColorEncoded: %230095b3;
+  --marketplaceColorEncoded: %23c0392b;
 
   --successColor: #2ecc71;
   --successColorDark: #239954;
@@ -101,8 +101,8 @@
 
   --TopbarMobileMenu_topMargin: 96px;
 
-  --Topbar_logoHeight: 26px;
-  --CheckoutPage_logoHeight: 26px;
+  --Topbar_logoHeight: 25px;
+  --CheckoutPage_logoHeight: 25px;
   --CheckoutPage_logoHeightDesktop: 27px;
 
   --TopbarSearchForm_inputHeight: 53px;

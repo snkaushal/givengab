@@ -216,13 +216,11 @@ class TopbarComponent extends Component {
           >
             <Logo format="mobile" />
           </NamedLink>
-          <Button
-            rootClassName={css.searchMenu}
-            onClick={this.handleMobileSearchOpen}
-            title={intl.formatMessage({ id: 'Topbar.searchIcon' })}
-          >
-            <SearchIcon className={css.searchMenuIcon} />
-          </Button>
+          <NamedLink className={css.home} name="OrgsPage">
+            <span className={css.createListing}>
+              <FormattedMessage id="TopbarDesktop.goToListing" />
+            </span>
+          </NamedLink>
         </div>
         <div className={css.desktop}>
           <TopbarDesktop

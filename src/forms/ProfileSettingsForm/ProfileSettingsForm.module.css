@@ -298,6 +298,19 @@
   }
 }
 
+.sectionFields:not(:last-child) {
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 32px;
+  }
+}
+
 .submitButton {
   margin-top: 24px;
+}
+
+.sectionDescription {
+  @apply --marketplaceTinyFontStyles;
+  color: var(--matterColor);
 }

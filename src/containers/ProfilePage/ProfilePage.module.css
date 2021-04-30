@@ -201,3 +201,68 @@
 .desktopReviewsTabNav {
   margin-bottom: 32px;
 }
+
+.interests {
+  @apply --marketplaceMessageFontStyles;
+  color: var(--matterColorDark);
+}
+
+.userDetails {
+  margin: 32px 0;
+  display: flex;
+  align-items: center;
+  color: var(--marketplaceColor);
+}
+
+.userDetails > div {
+  margin-right: 20px;
+  flex: 1;
+  display: flex;
+}
+
+.userDetails img {
+  margin-right: 20px;
+}
+
+.userDetails span {
+  display: block;
+}
+
+.objectivesOrgs {
+  border-top: 1px solid #ccc;
+  padding: 28px 0;
+  display: flex;
+}
+
+.objectivesOrgs h2 {
+  margin-top: 0;
+}
+
+.objectives {
+  flex: 1 1 50%;
+  max-width: 50%;
+  padding-right: 50px;
+  border-right: 1px solid #ccc;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.listItems {
+  @apply --marketplaceMessageFontStyles;
+  white-space: nowrap;
+  color: var(--marketplaceColor);
+  background-color: var(--marketplaceColorLight);
+  padding: 9px;
+  border-radius: 3px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.orgs {
+  flex: 1 1 50%;
+  max-width: 50%;
+  padding-left: 50px;
+}

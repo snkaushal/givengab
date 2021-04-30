@@ -1,17 +1,13 @@
 import React from 'react';
-import { bool, object } from 'prop-types';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from '../../util/reactIntl';
 import { isScrollingDisabled } from '../../ducks/UI.duck';
-import { propTypes } from '../../util/types';
 import config from '../../config';
 import {
   Page,
-  SectionHero,
-  SectionHowItWorks,
-  SectionLocations,
   LayoutSingleColumn,
   LayoutWrapperTopbar,
   LayoutWrapperMain,
@@ -20,19 +16,16 @@ import {
 } from '../../components';
 import { TopbarContainer } from '../../containers';
 
-import facebookImage from '../../assets/yogatimeFacebook-1200x630.jpg';
-import twitterImage from '../../assets/yogatimeTwitter-600x314.jpg';
 import css from './LandingPage.module.css';
 
+import howitworks from './images/howitworks.svg';
+import peopleofreno from './images/peopleofreno.svg';
+import poweredbypeople from './images/poweredbypeople.svg';
+import supporting from './images/supporting.svg';
+import themovers from './images/themovers.svg';
+
 export const LandingPageComponent = props => {
-  const {
-    history,
-    intl,
-    location,
-    scrollingDisabled,
-    currentUserListing,
-    currentUserListingFetched,
-  } = props;
+  const { intl, scrollingDisabled, isAuthenticated } = props;
 
   // Schema for search engines (helps them to understand what this page is about)
   // http://schema.org
@@ -40,7 +33,6 @@ export const LandingPageComponent = props => {
   const siteTitle = config.siteTitle;
   const schemaTitle = intl.formatMessage({ id: 'LandingPage.schemaTitle' }, { siteTitle });
   const schemaDescription = intl.formatMessage({ id: 'LandingPage.schemaDescription' });
-  const schemaImage = `${config.canonicalRootURL}${facebookImage}`;
 
   return (
     <Page
@@ -49,41 +41,24 @@ export const LandingPageComponent = props => {
       contentType="website"
       description={schemaDescription}
       title={schemaTitle}
-      facebookImages={[{ url: facebookImage, width: 1200, height: 630 }]}
-      twitterImages={[
-        { url: `${config.canonicalRootURL}${twitterImage}`, width: 600, height: 314 },
-      ]}
       schema={{
         '@context': 'http://schema.org',
         '@type': 'WebPage',
         description: schemaDescription,
         name: schemaTitle,
-        image: [schemaImage],
+        // image: [schemaImage],
       }}
     >
       <LayoutSingleColumn>
         <LayoutWrapperTopbar>
           <TopbarContainer />
         </LayoutWrapperTopbar>
-        <LayoutWrapperMain>
-          <div className={css.heroContainer}>
-            <SectionHero className={css.hero} history={history} location={location} />
-          </div>
-          <ul className={css.sections}>
-            <li className={css.section}>
-              <div className={css.sectionContentFirstChild}>
-                <SectionLocations />
-              </div>
-            </li>
-            <li className={css.section}>
-              <div className={css.sectionContent}>
-                <SectionHowItWorks
-                  currentUserListing={currentUserListing}
-                  currentUserListingFetched={currentUserListingFetched}
-                />
-              </div>
-            </li>
-          </ul>
+        <LayoutWrapperMain className={css.main}>
+          <img src={themovers} />
+          <img src={howitworks} />
+          <img src={supporting} />
+          <img src={poweredbypeople} />
+          <img src={peopleofreno} />
         </LayoutWrapperMain>
         <LayoutWrapperFooter>
           <Footer />
@@ -93,15 +68,11 @@ export const LandingPageComponent = props => {
   );
 };
 
-LandingPageComponent.defaultProps = {
-  currentUserListing: null,
-  currentUserListingFetched: false,
-};
+const { bool, object } = PropTypes;
 
 LandingPageComponent.propTypes = {
   scrollingDisabled: bool.isRequired,
-  currentUserListing: propTypes.ownListing,
-  currentUserListingFetched: bool,
+  isAuthenticated: bool.isRequired,
 
   // from withRouter
   history: object.isRequired,
@@ -112,12 +83,9 @@ LandingPageComponent.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { currentUserListing, currentUserListingFetched } = state.user;
-
   return {
     scrollingDisabled: isScrollingDisabled(state),
-    currentUserListing,
-    currentUserListingFetched,
+    isAuthenticated: state.Auth.isAuthenticated,
   };
 };
 

@@ -3,6 +3,7 @@ import { bool, func, object, shape, string } from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
+import { findOptionsForSelectFilter } from '../../util/search';
 import { propTypes } from '../../util/types';
 import { ensureCurrentUser } from '../../util/data';
 import { isScrollingDisabled } from '../../ducks/UI.duck';
@@ -18,6 +19,7 @@ import {
 } from '../../components';
 import { ProfileSettingsForm } from '../../forms';
 import { TopbarContainer } from '../../containers';
+import config from '../../config';
 
 import { updateProfile, uploadImage } from './ProfileSettingsPage.duck';
 import css from './ProfileSettingsPage.module.css';
@@ -45,8 +47,40 @@ export class ProfileSettingsPageComponent extends Component {
       intl,
     } = this.props;
 
+    const citiesOptions = findOptionsForSelectFilter('cities', config.custom.customFilters);
+    const objectiveOptions = findOptionsForSelectFilter('objectives', config.custom.customFilters);
+
+    const options = [
+      {
+        key: 'yes',
+        label: 'Yes',
+      },
+      {
+        key: 'no',
+        label: 'No',
+      },
+      {
+        key: 'maybe',
+        label: 'May be',
+      },
+    ];
+
     const handleSubmit = values => {
-      const { firstName, lastName, bio: rawBio } = values;
+      const {
+        firstName,
+        lastName,
+        city,
+        objectives,
+        interests,
+        title,
+        company,
+        links,
+        primaryOrganization,
+        secondaryOrganization,
+        otherOrganizations,
+        willingToIntroduce,
+        bio: rawBio,
+      } = values;
 
       // Ensure that the optional bio is a string
       const bio = rawBio || '';
@@ -55,6 +89,18 @@ export class ProfileSettingsPageComponent extends Component {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         bio,
+        publicData: {
+          city,
+          objectives,
+          interests,
+          title,
+          company,
+          links,
+          primaryOrganization,
+          secondaryOrganization,
+          otherOrganizations,
+          willingToIntroduce,
+        },
       };
       const uploadedImage = this.props.image;
 
@@ -68,7 +114,7 @@ export class ProfileSettingsPageComponent extends Component {
     };
 
     const user = ensureCurrentUser(currentUser);
-    const { firstName, lastName, bio } = user.attributes.profile;
+    const { firstName, lastName, bio, publicData } = user.attributes.profile;
     const profileImageId = user.profileImage ? user.profileImage.id : null;
     const profileImage = image || { imageId: profileImageId };
 
@@ -76,14 +122,32 @@ export class ProfileSettingsPageComponent extends Component {
       <ProfileSettingsForm
         className={css.form}
         currentUser={currentUser}
-        initialValues={{ firstName, lastName, bio, profileImage: user.profileImage }}
-        profileImage={profileImage}
+        initialValues={{
+          city: publicData.city,
+          objectives: publicData.objectives,
+          interests: publicData.interests,
+          title: publicData.title,
+          company: publicData.company,
+          links: publicData.links,
+          primaryOrganization: publicData.primaryOrganization,
+          secondaryOrganization: publicData.secondaryOrganization,
+          otherOrganizations: publicData.otherOrganizations,
+          willingToIntroduce: publicData.willingToIntroduce,
+          firstName,
+          lastName,
+          bio,
+          profileImage: user.profileImage,
+        }}
         onImageUpload={e => onImageUploadHandler(e, onImageUpload)}
         uploadInProgress={uploadInProgress}
         updateInProgress={updateInProgress}
         uploadImageError={uploadImageError}
         updateProfileError={updateProfileError}
         onSubmit={handleSubmit}
+        cities={citiesOptions}
+        objectiveOptions={objectiveOptions}
+        options={options}
+        profileImage={profileImage}
       />
     ) : null;
 

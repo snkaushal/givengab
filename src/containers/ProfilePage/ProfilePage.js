@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { REVIEW_TYPE_OF_PROVIDER, REVIEW_TYPE_OF_CUSTOMER, propTypes } from '../../util/types';
 import { ensureCurrentUser, ensureUser } from '../../util/data';
 import { withViewport } from '../../util/contextHelpers';
@@ -18,11 +19,16 @@ import {
   Footer,
   AvatarLarge,
   NamedLink,
+  ListingCard,
   Reviews,
   ButtonTabNavHorizontal,
 } from '../../components';
-import { TopbarContainer, NotFoundPage } from '../../containers';
+import { TopbarContainer, NotFoundPage } from '..';
 import config from '../../config';
+import UserIcon from './UserIcon.svg';
+import Location from './Location.svg';
+import Links from './Links.svg';
+import { findOptionsForSelectFilter } from '../../util/search';
 
 import css from './ProfilePage.module.css';
 
@@ -59,18 +65,52 @@ export class ProfilePageComponent extends Component {
       currentUser,
       user,
       userShowError,
+      queryListingsError,
+      listings,
       reviews,
       queryReviewsError,
       viewport,
       intl,
     } = this.props;
+    const getLabels = (data, options) =>
+      options.reduce((list, { key, label }) => {
+        if (data && data.includes(key)) {
+          list.push(label);
+        }
+
+        return list;
+      }, []);
     const ensuredCurrentUser = ensureCurrentUser(currentUser);
     const profileUser = ensureUser(user);
     const isCurrentUser =
       ensuredCurrentUser.id && profileUser.id && ensuredCurrentUser.id.uuid === profileUser.id.uuid;
     const displayName = profileUser.attributes.profile.displayName;
     const bio = profileUser.attributes.profile.bio;
+    const publicData =
+      profileUser.attributes.profile &&
+      profileUser.attributes.profile &&
+      profileUser.attributes.profile.publicData;
+    const citiesOptions = findOptionsForSelectFilter('cities', config.custom.customFilters);
+    const objectiveOptions = findOptionsForSelectFilter('objectives', config.custom.customFilters);
+    const city = getLabels(publicData && publicData.city, citiesOptions);
+    const hasCity = !!city.length;
+    const company = publicData && publicData.company;
+    const hasCompany = !!company;
+    const interests = publicData && publicData.interests;
+    const hasInterests = !!interests;
+    const links = publicData && publicData.links;
+    const hasLinks = !!links;
+    const objectives = getLabels(publicData && publicData.objectives, objectiveOptions);
+    const hasObjectives = !!objectives.length;
+    const primaryOrganization = publicData && publicData.primaryOrganization;
+    const secondaryOrganization = publicData && publicData.secondaryOrganization;
+    const otherOrganizations = publicData && publicData.otherOrganizations;
+    const hasOrganizations =
+      !!primaryOrganization || !!secondaryOrganization || !!otherOrganizations;
+    const title = publicData && publicData.title;
+    const hasTitle = !!title;
     const hasBio = !!bio;
+    const hasListings = listings.length > 0;
     const isMobileLayout = viewport.width < MAX_MOBILE_SCREEN_WIDTH;
 
     const editLinkMobile = isCurrentUser ? (
@@ -96,6 +136,17 @@ export class ProfilePageComponent extends Component {
         {editLinkDesktop}
       </div>
     );
+
+    const listingsContainerClasses = classNames(css.listingsContainer, {
+      [css.withBioMissingAbove]:
+        !hasBio &&
+        !hasCity &&
+        !hasCompany &&
+        !hasInterests &&
+        !hasLinks &&
+        !hasObjectives &&
+        !hasOrganizations,
+    });
 
     const reviewsError = (
       <p className={css.error}>
@@ -174,7 +225,68 @@ export class ProfilePageComponent extends Component {
         <h1 className={css.desktopHeading}>
           <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
         </h1>
-        {hasBio ? <p className={css.bio}>{bio}</p> : null}
+        <div className={css.userDetails}>
+          {(hasCompany || hasTitle) && (
+            <div>
+              <img src={UserIcon} /> <span>{`${title || ''} ${company ? '@' + company : ''}`}</span>
+            </div>
+          )}
+          {hasCity && (
+            <div>
+              <img src={Location} /> <span>{city}</span>
+            </div>
+          )}
+          {hasLinks && (
+            <div>
+              <img src={Links} />
+              <span>{links.split(',').map(link => link)}</span>
+            </div>
+          )}
+        </div>
+        {(hasOrganizations || hasObjectives) && (
+          <div className={css.objectivesOrgs}>
+            {hasInterests && (
+              <div className={css.objectives}>
+                <h2>My Interests</h2>
+                {/* {objectives.map(objective => (
+                    <div className={css.listItems}>{objective}</div>
+                  ))} */}
+                <p className={css.interests}>{interests}</p>
+              </div>
+            )}
+            {hasOrganizations && (
+              <div className={css.orgs}>
+                <h2>Supported Orgs</h2>
+                <div className={css.list}>
+                  {`${primaryOrganization || ''} ${
+                    secondaryOrganization ? ',' + secondaryOrganization : ''
+                  } ${otherOrganizations ? ',' + otherOrganizations : ''}`
+                    .split(',')
+                    .map(org => (
+                      <div className={css.listItems}>{org}</div>
+                    ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        {hasListings ? (
+          <div className={listingsContainerClasses}>
+            <h2 className={css.listingsTitle}>
+              <FormattedMessage
+                id="ProfilePage.listingsTitle"
+                values={{ count: listings.length }}
+              />
+            </h2>
+            <ul className={css.listings}>
+              {listings.map(l => (
+                <li className={css.listing} key={l.id.uuid}>
+                  <ListingCard listing={l} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         {isMobileLayout ? mobileReviews : desktopReviews}
       </div>
     );
@@ -183,7 +295,7 @@ export class ProfilePageComponent extends Component {
 
     if (userShowError && userShowError.status === 404) {
       return <NotFoundPage />;
-    } else if (userShowError) {
+    } else if (userShowError || queryListingsError) {
       content = (
         <p className={css.error}>
           <FormattedMessage id="ProfilePage.loadingDataFailed" />
@@ -232,6 +344,7 @@ ProfilePageComponent.defaultProps = {
   currentUser: null,
   user: null,
   userShowError: null,
+  queryListingsError: null,
   reviews: [],
   queryReviewsError: null,
 };
@@ -243,6 +356,8 @@ ProfilePageComponent.propTypes = {
   currentUser: propTypes.currentUser,
   user: propTypes.user,
   userShowError: propTypes.error,
+  queryListingsError: propTypes.error,
+  listings: arrayOf(propTypes.listing).isRequired,
   reviews: arrayOf(propTypes.review),
   queryReviewsError: propTypes.error,
 
@@ -258,14 +373,24 @@ ProfilePageComponent.propTypes = {
 
 const mapStateToProps = state => {
   const { currentUser } = state.user;
-  const { userId, userShowError, reviews, queryReviewsError } = state.ProfilePage;
+  const {
+    userId,
+    userShowError,
+    queryListingsError,
+    userListingRefs,
+    reviews,
+    queryReviewsError,
+  } = state.ProfilePage;
   const userMatches = getMarketplaceEntities(state, [{ type: 'user', id: userId }]);
   const user = userMatches.length === 1 ? userMatches[0] : null;
+  const listings = getMarketplaceEntities(state, userListingRefs);
   return {
     scrollingDisabled: isScrollingDisabled(state),
     currentUser,
     user,
     userShowError,
+    queryListingsError,
+    listings,
     reviews,
     queryReviewsError,
   };
