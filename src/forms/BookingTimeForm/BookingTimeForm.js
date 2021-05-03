@@ -102,7 +102,8 @@ export class BookingTimeFormComponent extends Component {
             doneeCompany,
           } = fieldRenderProps;
 
-          const supportedOrg = supportedOrgOptions.find(({ key }) => key === doneeCompany).label;
+          const findSupportedOrg = supportedOrgOptions.find(({ key }) => key === doneeCompany);
+          const supportedOrg = findSupportedOrg && findSupportedOrg.label;
 
           const startTime = values && values.bookingStartTime ? values.bookingStartTime : null;
           const endTime = values && values.bookingEndTime ? values.bookingEndTime : null;
