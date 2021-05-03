@@ -3,11 +3,13 @@ import { arrayOf, bool, func, shape, string } from 'prop-types';
 import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
+import { findOptionsForSelectFilter } from '../../util/search';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { maxLength, required, composeValidators } from '../../util/validators';
 import { Form, Button, FieldTextInput } from '../../components';
 import CustomCategorySelectFieldMaybe from './CustomCategorySelectFieldMaybe';
+import config from '../../config';
 
 import css from './EditListingDescriptionForm.module.css';
 
@@ -99,6 +101,8 @@ const EditListingDescriptionFormComponent = props => (
         { key: 'renowned', label: 'Renowned' },
       ];
 
+      const supportedOrgOptions = findOptionsForSelectFilter('supportedOrg', config.custom.customFilters);
+
       return (
         <Form className={classes} onSubmit={handleSubmit}>
           {errorMessageCreateListingDraft}
@@ -143,13 +147,14 @@ const EditListingDescriptionFormComponent = props => (
             intl={intl}
             label="Expertise level"
             requiredMessage="Expertise level is required"
+            placeholder="Your level of expertise with regards to this Give"
           />
 
-          <FieldTextInput
+          <CustomCategorySelectFieldMaybe
             id="localOrg"
             name="localOrg"
-            className={css.description}
-            type="text"
+            options={supportedOrgOptions}
+            intl={intl}
             label="Which local organization will this give support?"
             placeholder="Which local organization will this give support?"
             validate={required('Supported local organization of your give is required')}

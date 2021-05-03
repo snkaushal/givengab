@@ -806,6 +806,7 @@ export class CheckoutPageComponent extends Component {
                   }
                   paymentIntent={paymentIntent}
                   onStripeInitialized={this.onStripeInitialized}
+                  username={userName}
                 />
               ) : null}
               {isPaymentExpired ? (

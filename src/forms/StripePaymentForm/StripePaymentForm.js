@@ -125,6 +125,7 @@ const PaymentMethodSelector = props => {
     error,
     paymentMethod,
     intl,
+    username
   } = props;
   const last4Digits = defaultPaymentMethod.attributes.card.last4Digits;
   const labelText = intl.formatMessage(
@@ -328,6 +329,7 @@ class StripePaymentForm extends Component {
       form,
       hasHandledCardPayment,
       defaultPaymentMethod,
+      username,
     } = formRenderProps;
 
     this.finalFormAPI = form;
@@ -377,7 +379,10 @@ class StripePaymentForm extends Component {
 
     const initialMessageLabel = intl.formatMessage(
       { id: 'StripePaymentForm.messageLabel' },
-      { messageOptionalText: messageOptionalText }
+      {
+        messageOptionalText: messageOptionalText,
+        host: username
+      }
     );
 
     // Asking billing address is recommended in PaymentIntent flow.
@@ -530,6 +535,7 @@ StripePaymentForm.propTypes = {
   onSubmit: func.isRequired,
   paymentInfo: string.isRequired,
   authorDisplayName: string.isRequired,
+  username: string.isRequired,
   showInitialMessageInput: bool,
   hasHandledCardPayment: bool,
   defaultPaymentMethod: propTypes.defaultPaymentMethod,

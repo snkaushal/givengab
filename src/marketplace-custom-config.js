@@ -360,6 +360,81 @@ export const customFilters = [
       ],
     },
   },
+  {
+    id: 'supportedOrg',
+    label: 'SupportedOrg',
+    type: 'SelectSingleFilter',
+    group: 'primary',
+    queryParamNames: ['supportedOrg'],
+    config: {
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        {
+          label: 'SPCA Northern Nevada',
+          key: 'https://spcanevada.org/',
+        },
+        {
+          label: 'Sundance Books and Music',
+          key: 'https://www.sundancebookstore.com/',
+        },
+        {
+          label: 'Boys & Girls Club Of Truckee Meadows',
+          key: 'https://bgctm.org/',
+        },
+        {
+          label: 'Reno Artown',
+          key: 'https://artown.org/',
+        },
+        {
+          label: 'Big Brothers Big Sisters',
+          key: 'http://www.bbbsnn.org/',
+        },
+        {
+          label: 'Walden’s Coffeehouse',
+          key: 'https://www.waldenscoffeehouse.com/',
+        },
+        {
+          label: 'deLaveaga Designs',
+          key: 'http://delaveagadesigns.com/',
+        },
+        {
+          label: 'Nevada Industry Excellence',
+          key: 'https://www.nevadaie.com/',
+        },
+        {
+          label: 'Startup NV',
+          key: 'https://startupnv.org/',
+        },
+        {
+          label: 'Reno Sportsdome',
+          key: 'https://renosportsdome.com/',
+        },
+        {
+          label: 'Mementomorium',
+          key: 'https://www.mementomorium.org/',
+        },
+        {
+          label: 'The Generator',
+          key: 'https://www.therenogenerator.com/',
+        },
+        {
+          label: 'Ioterra',
+          key: 'ioterra.com',
+        },
+        {
+          label: 'Great Reno Balloon Race',
+          key: 'https://renoballoon.com/',
+        },
+        {
+          label: 'Reno Roller Kingdom',
+          key: 'https://www.rollerkingdom.org/',
+        },
+      ],
+    },
+  },
 ];
 
 export const sortConfig = {

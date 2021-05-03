@@ -169,12 +169,10 @@ const PanelHeading = props => {
       );
     case HEADING_REQUESTED:
       return isCustomer ? (
-        <HeadingCustomerWithSubtitle
+        <HeadingCustomer
           className={titleClasses}
-          id="TransactionPanel.orderPreauthorizedTitle"
-          values={{ customerName }}
-          subtitleId="TransactionPanel.orderPreauthorizedSubtitle"
-          subtitleValues={{ listingLink }}
+          id="TransactionPanel.orderPreauthorizedSubtitle"
+          values={{ listingLink }}
         >
           {!listingDeleted ? (
             <p className={css.transactionInfoMessage}>
@@ -184,7 +182,7 @@ const PanelHeading = props => {
               />
             </p>
           ) : null}
-        </HeadingCustomerWithSubtitle>
+        </HeadingCustomer>
       ) : (
         <HeadingProvider
           className={titleClasses}

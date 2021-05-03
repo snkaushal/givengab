@@ -5,7 +5,7 @@ import { FieldSelect } from '../../components';
 import css from './EditListingDescriptionForm.module.css';
 
 const CustomCategorySelectFieldMaybe = props => {
-  const { name, id, options, intl } = props;
+  const { name, id, options, intl, placeholder } = props;
   const levelRequired = required(props.requiredMessage);
   return options ? (
     <FieldSelect
@@ -16,7 +16,7 @@ const CustomCategorySelectFieldMaybe = props => {
       validate={levelRequired}
     >
       <option disabled value="">
-        Your level of expertise with regards to this Give
+        {placeholder}
       </option>
       {options.map(c => (
         <option key={c.key} value={c.key}>

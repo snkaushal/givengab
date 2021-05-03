@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { Form as FinalForm, FormSpy } from 'react-final-form';
 import classNames from 'classnames';
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
+import { findOptionsForSelectFilter } from '../../util/search';
 import { timestampToDate } from '../../util/dates';
 import { propTypes } from '../../util/types';
 import config from '../../config';
@@ -69,6 +70,8 @@ export class BookingTimeFormComponent extends Component {
       );
     }
 
+    const supportedOrgOptions = findOptionsForSelectFilter('supportedOrg', config.custom.customFilters);
+
     return (
       <FinalForm
         {...rest}
@@ -95,6 +98,8 @@ export class BookingTimeFormComponent extends Component {
             fetchLineItemsError,
             doneeCompany
           } = fieldRenderProps;
+
+          const supportedOrg = supportedOrgOptions.find(({ key }) => key === doneeCompany).label;
 
           const startTime = values && values.bookingStartTime ? values.bookingStartTime : null;
           const endTime = values && values.bookingEndTime ? values.bookingEndTime : null;
@@ -206,7 +211,7 @@ export class BookingTimeFormComponent extends Component {
               </div>
               <br />
               <h2>Donee company</h2>
-              {doneeCompany}
+              <a href={doneeCompany} target="_blank">{supportedOrg}</a>
             </Form>
           );
         }}
