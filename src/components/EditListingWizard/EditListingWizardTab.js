@@ -243,9 +243,17 @@ const EditListingWizardTab = props => {
       const submitButtonTranslationKey = isNewListingFlow
         ? 'EditListingWizard.saveNewAvailability'
         : 'EditListingWizard.saveEditAvailability';
+      
+      const sharedProps = { ...panelProps(AVAILABILITY) };
+      const { availabilityPlan } = sharedProps.listing.attributes;
+
+      if (availabilityPlan && !availabilityPlan.timezone) {
+        sharedProps.listing.attributes.availabilityPlan = null;
+      }
+
       return (
         <EditListingAvailabilityPanel
-          {...panelProps(AVAILABILITY)}
+          {...sharedProps}
           fetchExceptionsInProgress={fetchExceptionsInProgress}
           availabilityExceptions={availabilityExceptions}
           submitButtonText={intl.formatMessage({ id: submitButtonTranslationKey })}
