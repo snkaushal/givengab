@@ -70,7 +70,10 @@ export class BookingTimeFormComponent extends Component {
       );
     }
 
-    const supportedOrgOptions = findOptionsForSelectFilter('supportedOrg', config.custom.customFilters);
+    const supportedOrgOptions = findOptionsForSelectFilter(
+      'supportedOrg',
+      config.custom.customFilters
+    );
 
     return (
       <FinalForm
@@ -96,7 +99,7 @@ export class BookingTimeFormComponent extends Component {
             lineItems,
             fetchLineItemsInProgress,
             fetchLineItemsError,
-            doneeCompany
+            doneeCompany,
           } = fieldRenderProps;
 
           const supportedOrg = supportedOrgOptions.find(({ key }) => key === doneeCompany).label;
@@ -210,8 +213,14 @@ export class BookingTimeFormComponent extends Component {
                 </PrimaryButton>
               </div>
               <br />
-              <h2>Donee company</h2>
-              <a href={doneeCompany} target="_blank">{supportedOrg}</a>
+              {supportedOrg && doneeCompany && (
+                <>
+                  <h2>Donee company</h2>
+                  <a href={doneeCompany} target="_blank">
+                    {supportedOrg}
+                  </a>
+                </>
+              )}
             </Form>
           );
         }}
