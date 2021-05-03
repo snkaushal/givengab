@@ -10,6 +10,13 @@
   }
 }
 
+.main > img:nth-child(2) {
+  padding: 20px 10px 0 10px;
+  @media (--viewportMedium) {
+    padding: 20px 10% 0 10%;
+  }
+}
+
 .main > img:last-child {
   padding-top: 20px;
   @media (--viewportMedium) {
