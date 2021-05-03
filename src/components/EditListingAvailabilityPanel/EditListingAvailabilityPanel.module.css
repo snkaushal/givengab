@@ -28,6 +28,19 @@
   padding: 3px 0 3px 0;
 }
 
+.tip {
+  @apply --marketplaceH5FontStyles;
+  flex-shrink: 0;
+  color: var(--matterColor);
+  margin-top: 24px;
+  margin-bottom: 60px;
+
+  @media (--viewportLarge) {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+}
+
 .editPlanButton {
   @apply --marketplaceH5FontStyles;
   margin: 0;

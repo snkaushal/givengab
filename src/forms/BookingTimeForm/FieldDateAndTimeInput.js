@@ -514,7 +514,7 @@ class FieldDateAndTimeInput extends Component {
               className={bookingStartDate ? css.fieldSelect : css.fieldSelectDisabled}
               selectClassName={bookingStartDate ? css.select : css.selectDisabled}
               label={startTimeLabel}
-              disabled={startTimeDisabled}
+              disabled={startTimeDisabled || true}
               onChange={this.onBookingStartTimeChange}
             >
               {bookingStartDate ? (
@@ -538,7 +538,7 @@ class FieldDateAndTimeInput extends Component {
               className={bookingStartDate ? css.fieldSelect : css.fieldSelectDisabled}
               selectClassName={bookingStartDate ? css.select : css.selectDisabled}
               label={endTimeLabel}
-              disabled={endTimeDisabled}
+              disabled={endTimeDisabled || true}
             >
               {bookingStartDate && (bookingStartTime || startTime) ? (
                 availableEndTimes.map(p => (

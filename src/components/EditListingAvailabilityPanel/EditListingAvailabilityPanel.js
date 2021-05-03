@@ -230,31 +230,6 @@ const EditListingAvailabilityPanel = props => {
           <FormattedMessage id="EditListingAvailabilityPanel.createListingTitle" />
         )}
       </h1>
-
-      <section className={css.section}>
-        <header className={css.sectionHeader}>
-          <h2 className={css.sectionTitle}>
-            <FormattedMessage id="EditListingAvailabilityPanel.defaultScheduleTitle" />
-          </h2>
-          <InlineTextButton
-            className={css.editPlanButton}
-            onClick={() => setIsEditPlanModalOpen(true)}
-          >
-            <IconEdit className={css.editPlanIcon} />{' '}
-            <FormattedMessage id="EditListingAvailabilityPanel.edit" />
-          </InlineTextButton>
-        </header>
-        <div className={css.week}>
-          {WEEKDAYS.map(w => (
-            <Weekday
-              dayOfWeek={w}
-              key={w}
-              availabilityPlan={availabilityPlan}
-              openEditModal={setIsEditPlanModalOpen}
-            />
-          ))}
-        </div>
-      </section>
       <section className={css.section}>
         <header className={css.sectionHeader}>
           <h2 className={css.sectionTitle}>
@@ -268,6 +243,10 @@ const EditListingAvailabilityPanel = props => {
             )}
           </h2>
         </header>
+        <p className={css.tip}>
+            Set general rules that dictate how long this give will be available as well as weeks or
+            days of the month that the give will not be allowed to be booked.
+          </p>
         {fetchExceptionsInProgress ? (
           <div className={css.exceptionsLoading}>
             <IconSpinner />
@@ -328,6 +307,34 @@ const EditListingAvailabilityPanel = props => {
             <FormattedMessage id="EditListingAvailabilityPanel.addException" />
           </InlineTextButton>
         ) : null}
+      </section>
+      <section className={css.section}>
+        <header className={css.sectionHeader}>
+          <h2 className={css.sectionTitle}>
+            <FormattedMessage id="EditListingAvailabilityPanel.defaultScheduleTitle" />
+          </h2>
+          <InlineTextButton
+            className={css.editPlanButton}
+            onClick={() => setIsEditPlanModalOpen(true)}
+          >
+            <IconEdit className={css.editPlanIcon} />{' '}
+            <FormattedMessage id="EditListingAvailabilityPanel.edit" />
+          </InlineTextButton>
+        </header>
+        <p className={css.tip}>
+          This weekly availability will show as default unless there are any contrary conditions set
+          in the above section
+        </p>
+        <div className={css.week}>
+          {WEEKDAYS.map(w => (
+            <Weekday
+              dayOfWeek={w}
+              key={w}
+              availabilityPlan={availabilityPlan}
+              openEditModal={setIsEditPlanModalOpen}
+            />
+          ))}
+        </div>
       </section>
 
       {errors.showListingsError ? (
