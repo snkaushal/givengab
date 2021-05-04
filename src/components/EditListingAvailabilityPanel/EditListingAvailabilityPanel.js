@@ -244,9 +244,9 @@ const EditListingAvailabilityPanel = props => {
           </h2>
         </header>
         <p className={css.tip}>
-            Set general rules that dictate how long this give will be available as well as weeks or
-            days of the month that the give will not be allowed to be booked.
-          </p>
+          Set general rules that dictate what days this give will be available. If a give is able to
+          be booked every week then please utilize the section at the bottom of the page.
+        </p>
         {fetchExceptionsInProgress ? (
           <div className={css.exceptionsLoading}>
             <IconSpinner />
