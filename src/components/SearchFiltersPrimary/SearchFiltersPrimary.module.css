@@ -123,11 +123,35 @@
   background-size: cover;
 
   border-radius: 3px;
-  width: 72px;
+  width: 100px;
   height: 40px;
   padding: 12px 0;
   margin: 0;
   cursor: pointer;
   margin-left: 8px;
   text-align: center;
+}
+
+.personIcon {
+  @apply --marketplaceTinyFontStyles;
+  font-weight: var(--fontWeightMedium);
+
+  /* background map image */
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff70), url(https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=105&w=216);
+  background-size: cover;
+
+  border-radius: 3px;
+  width: 100px;
+  height: 40px;
+  padding: 12px 0;
+  margin: 0;
+  cursor: pointer;
+  margin-left: 8px;
+  text-align: center;
+  
+}
+
+.giveIcon {
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff70), url(https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=105&w=216);
+
 }

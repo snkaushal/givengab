@@ -169,7 +169,9 @@ class MainPanel extends Component {
       showAsModalMaxWidth,
       filterConfig,
       sortConfig,
-      isSearchMapOpenOnMobile
+      isSearchMapOpenOnMobile,
+      showPeople,
+      toggleTypeOfList,
     } = this.props;
 
     const primaryFilters = filterConfig.filter(f => f.group === 'primary');
@@ -252,6 +254,8 @@ class MainPanel extends Component {
           searchListingsError={searchListingsError}
           onMapIconClick={onMapIconClick}
           isSearchMapOpenOnMobile={isSearchMapOpenOnMobile}
+          showPeople={showPeople}
+          toggleTypeOfList={toggleTypeOfList}
           {...propsForSecondaryFiltersToggle}
         >
           {primaryFilters.map(config => {
@@ -372,6 +376,7 @@ class MainPanel extends Component {
               listingsAreLoaded={listingsAreLoaded}
               resultsCount={totalItems}
               searchInProgress={searchInProgress}
+              showPeople={showPeople}
             />
           </div>
         </div>
@@ -412,6 +417,8 @@ MainPanel.propTypes = {
   filterConfig: propTypes.filterConfig,
   sortConfig: propTypes.sortConfig,
   isSearchMapOpenOnMobile: bool.isRequired,
+  showPeople: bool.isRequired,
+  toggleTypeOfList: func.isRequired,
 
   history: shape({
     push: func.isRequired,

@@ -27,6 +27,7 @@ import EditListingWizardTab, {
   PRICING,
   PHOTOS,
   GROWCOMMUNITY,
+  CUSTOM_AVAILABILITY
 } from './EditListingWizardTab';
 import css from './EditListingWizard.module.css';
 
@@ -45,6 +46,7 @@ export const TABS = [
   //POLICY,
   LOCATION,
   PRICING,
+  CUSTOM_AVAILABILITY,
   ...availabilityMaybe,
   PHOTOS,
   GROWCOMMUNITY,
@@ -71,6 +73,8 @@ const tabLabel = (intl, tab) => {
   } else if (tab === PRICING) {
     key = 'EditListingWizard.tabLabelPricing';
   } else if (tab === AVAILABILITY) {
+    key = 'EditListingWizard.tabLabelAvailability';
+  } else if (tab === CUSTOM_AVAILABILITY) {
     key = 'EditListingWizard.tabLabelAvailability';
   } else if (tab === PHOTOS) {
     key = 'EditListingWizard.tabLabelPhotos';
@@ -121,6 +125,8 @@ const tabCompleted = (tab, listing) => {
       return !!(geolocation && publicData && publicData.location && publicData.location.address);
     case PRICING:
       return !!price;
+    case CUSTOM_AVAILABILITY:
+      return !!publicData;
     case AVAILABILITY:
       return !!availabilityPlan;
     case PHOTOS:

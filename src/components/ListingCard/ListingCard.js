@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { array, string, func } from 'prop-types';
+import { array, string, func, bool } from 'prop-types';
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { lazyLoadWithDimensions } from '../../util/contextHelpers';
@@ -49,21 +49,24 @@ export const ListingCardComponent = props => {
     listing,
     renderSizes,
     setActiveListing,
+    showUsers
   } = props;
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureListing(listing);
-  const id = currentListing.id.uuid;
+  const author = ensureUser(listing.author);
+  const id = showUsers ? author.id.uuid : currentListing.id.uuid;
   const { title = '', price, description } = currentListing.attributes;
   const slug = createSlug(title);
-  const author = ensureUser(listing.author);
   const authorName = author.attributes.profile.displayName;
-  const firstImage =
+  const firstImage = showUsers ? currentListing.author.profileImage :
     currentListing.images && currentListing.images.length > 0 ? currentListing.images[0] : null;
 
   const { formattedPrice, priceTitle } = priceData(price, intl);
 
+  const params = showUsers ? { id } : { id, slug };
+  
   return (
-    <NamedLink className={classes} name="ListingPage" params={{ id, slug }}>
+    <NamedLink className={classes} name={showUsers ? "ProfilePage" : "ListingPage"} params={params}>
       <div
         className={css.threeToTwoWrapper}
         onMouseEnter={() => setActiveListing(currentListing.id)}
@@ -81,7 +84,7 @@ export const ListingCardComponent = props => {
       </div>
       <div className={css.info}>
         <div className={css.mainInfo}>
-          <div className={css.title}>
+           <div className={css.title}>
             {richText(title, {
               longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS,
               longWordClass: css.longWord,
@@ -116,6 +119,7 @@ ListingCardComponent.propTypes = {
   filtersConfig: array,
   intl: intlShape.isRequired,
   listing: propTypes.listing.isRequired,
+  showUsers: bool,
 
   // Responsive image sizes hint
   renderSizes: string,

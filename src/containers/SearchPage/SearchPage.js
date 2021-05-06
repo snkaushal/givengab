@@ -37,6 +37,7 @@ export class SearchPageComponent extends Component {
     this.state = {
       isSearchMapOpenOnMobile: props.tab === 'map',
       isMobileModalOpen: false,
+      showPeople: true,
     };
 
     this.searchMapListingsInProgress = false;
@@ -148,6 +149,12 @@ export class SearchPageComponent extends Component {
       });
     };
 
+    const toggleTypeOfList = () => {
+      this.setState({
+        showPeople: !this.state.showPeople,
+      })
+    }
+
     const { address, bounds, origin } = searchInURL || {};
     const { title, description, schema } = createSearchResultSchema(listings, address, intl);
 
@@ -188,6 +195,8 @@ export class SearchPageComponent extends Component {
             showAsModalMaxWidth={MODAL_BREAKPOINT}
             history={history}
             isSearchMapOpenOnMobile={this.state.isSearchMapOpenOnMobile}
+            showPeople={this.state.showPeople}
+            toggleTypeOfList={toggleTypeOfList}
           />
           {(isMobileLayout || this.state.isSearchMapOpenOnMobile) && (
             <ModalInMobile

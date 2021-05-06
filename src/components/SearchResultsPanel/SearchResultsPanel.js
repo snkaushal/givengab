@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { ListingCard, PaginationLinks } from '../../components';
 import { FormattedMessage } from '../../util/reactIntl';
+import uniqBy from 'lodash/uniqBy';
 import css from './SearchResultsPanel.module.css';
 
 const SearchResultsPanel = props => {
@@ -17,6 +18,7 @@ const SearchResultsPanel = props => {
     listingsAreLoaded,
     resultsCount,
     searchInProgress,
+    showPeople,
   } = props;
   const classes = classNames(rootClassName || css.root, className);
 
@@ -41,6 +43,7 @@ const SearchResultsPanel = props => {
   ].join(', ');
 
   const hasNoResult = listingsAreLoaded && resultsCount === 0;
+  const usersListings = uniqBy(listings, 'author.id');
 
   return (
     <div className={classes}>
@@ -56,13 +59,15 @@ const SearchResultsPanel = props => {
         </div>
       ) : null}
       <div className={css.listingCards}>
-        {listings.map(l => (
+        
+        {(showPeople ? usersListings : listings).map(l => (
           <ListingCard
             className={css.listingCard}
             key={l.id.uuid}
             listing={l}
             renderSizes={cardRenderSizes}
             setActiveListing={setActiveListing}
+            showUsers={showPeople}
           />
         ))}
         {props.children}
@@ -93,6 +98,7 @@ SearchResultsPanel.propTypes = {
   listingsAreLoaded: bool,
   resultsCount: number,
   searchInProgress: bool,
+  showPeople: bool,
 };
 
 export default SearchResultsPanel;

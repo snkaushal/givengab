@@ -396,6 +396,8 @@ export class ListingPageComponent extends Component {
         </span>
       ) : null;
     const doneeCompany = publicData && publicData.localOrg;
+    const noOfDaysAvailable = publicData && publicData.daysAvailable;
+    const dayTimeAvailable = publicData && publicData.dayTimeAvailable;
 
     return (
       <Page
@@ -445,13 +447,15 @@ export class ListingPageComponent extends Component {
                     showContactUser={showContactUser}
                     onContactUser={this.onContactUser}
                   />
-                  <SectionDescriptionMaybe description={description} />
+                  <SectionDescriptionMaybe description={description} id="ListingPage.descriptionTitle" />
                   <SectionFeaturesMaybe
                     options={activityOptions}
                     publicData={publicData}
                     filterConfig={filterConfig}
                   />
                   <SectionRulesMaybe publicData={publicData} />
+                  <SectionDescriptionMaybe description={dayTimeAvailable} id="ListingPage.availability" />
+                  <SectionDescriptionMaybe description={noOfDaysAvailable} id="ListingPage.noOfDaysAvailable" />
                   <SectionMapMaybe
                     geolocation={geolocation}
                     publicData={publicData}
