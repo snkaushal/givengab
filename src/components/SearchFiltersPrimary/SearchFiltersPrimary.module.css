@@ -137,7 +137,7 @@
   font-weight: var(--fontWeightMedium);
 
   /* background map image */
-  background-image: linear-gradient(to bottom, #ffffff, #ffffff70), url(https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=105&w=216);
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff70), url(./images/person_icon216x105.jpeg);
   background-size: cover;
 
   border-radius: 3px;
@@ -152,6 +152,6 @@
 }
 
 .giveIcon {
-  background-image: linear-gradient(to bottom, #ffffff, #ffffff70), url(https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=105&w=216);
+  background-image: linear-gradient(to bottom, #ffffff, #ffffff70), url(./images/give_icon216x105.jpeg);
 
 }
