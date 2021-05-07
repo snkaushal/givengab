@@ -4,6 +4,7 @@ import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { lazyLoadWithDimensions } from '../../util/contextHelpers';
 import { propTypes } from '../../util/types';
+import { findOptionsForSelectFilter } from '../../util/search';
 import { formatMoney } from '../../util/currency';
 import { ensureListing, ensureUser } from '../../util/data';
 import { richText } from '../../util/richText';
@@ -59,9 +60,16 @@ export const ListingCardComponent = props => {
   const slug = createSlug(title);
   const authorName = author.attributes.profile.displayName;
   const authorTitle = author.attributes.profile.publicData.title;
-  const authorInterests = author.attributes.profile.publicData.interests;
   const firstImage = showUsers ? currentListing.author.profileImage :
     currentListing.images && currentListing.images.length > 0 ? currentListing.images[0] : null;
+  const supportedOrg = currentListing.attributes.publicData.localOrg;
+
+  const supportedOrgOptions = findOptionsForSelectFilter(
+    'supportedOrg',
+    config.custom.customFilters
+  );
+
+  const findSupportedOrg = supportedOrgOptions.find(({ key }) => key === supportedOrg);
 
   const { formattedPrice, priceTitle } = priceData(price, intl);
 
@@ -95,7 +103,7 @@ export const ListingCardComponent = props => {
           {!showUsers && <div className={css.authorInfo}>
             <FormattedMessage id="ListingCard.hostedBy" values={{ authorName }} />
           </div>}
-          {showUsers && <div className={css.authorInfo}>
+          {showUsers && authorTitle && <div className={css.authorInfo}>
             {authorTitle}
           </div>}
         </div>
@@ -105,7 +113,7 @@ export const ListingCardComponent = props => {
           </div>
         </div>}
       </div>
-      <div className={css.description}>{showUsers ? authorInterests : description}</div>
+      {findSupportedOrg && <div className={css.description}>{showUsers ? findSupportedOrg.label : description}</div>}
     </NamedLink>
   );
 };
