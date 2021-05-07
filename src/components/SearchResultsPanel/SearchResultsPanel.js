@@ -62,7 +62,7 @@ const SearchResultsPanel = props => {
         
         {(showPeople ? usersListings : listings).map(l => (
           <ListingCard
-            className={css.listingCard}
+            className={showPeople ? css.peopleCard : css.listingCard}
             key={l.id.uuid}
             listing={l}
             renderSizes={cardRenderSizes}

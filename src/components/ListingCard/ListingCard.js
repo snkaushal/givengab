@@ -58,6 +58,8 @@ export const ListingCardComponent = props => {
   const { title = '', price, description } = currentListing.attributes;
   const slug = createSlug(title);
   const authorName = author.attributes.profile.displayName;
+  const authorTitle = author.attributes.profile.publicData.title;
+  const authorInterests = author.attributes.profile.publicData.interests;
   const firstImage = showUsers ? currentListing.author.profileImage :
     currentListing.images && currentListing.images.length > 0 ? currentListing.images[0] : null;
 
@@ -75,7 +77,7 @@ export const ListingCardComponent = props => {
         <div className={css.aspectWrapper}>
           <LazyImage
             rootClassName={css.rootForImage}
-            alt={title}
+            alt={showUsers ? authorName : title}
             image={firstImage}
             variants={['landscape-crop', 'landscape-crop2x']}
             sizes={renderSizes}
@@ -85,22 +87,25 @@ export const ListingCardComponent = props => {
       <div className={css.info}>
         <div className={css.mainInfo}>
            <div className={css.title}>
-            {richText(title, {
+            {richText(showUsers ? authorName : title, {
               longWordMinLength: MIN_LENGTH_FOR_LONG_WORDS,
               longWordClass: css.longWord,
             })}
           </div>
-          <div className={css.authorInfo}>
+          {!showUsers && <div className={css.authorInfo}>
             <FormattedMessage id="ListingCard.hostedBy" values={{ authorName }} />
-          </div>
+          </div>}
+          {showUsers && <div className={css.authorInfo}>
+            {authorTitle}
+          </div>}
         </div>
-        <div className={css.price}>
+        {!showUsers && <div className={css.price}>
           <div className={css.priceValue} title={priceTitle}>
             {formattedPrice}
           </div>
-        </div>
+        </div>}
       </div>
-      <div className={css.description}>{description}</div>
+      <div className={css.description}>{showUsers ? authorInterests : description}</div>
     </NamedLink>
   );
 };

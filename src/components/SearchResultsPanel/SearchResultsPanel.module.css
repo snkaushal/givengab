@@ -17,6 +17,47 @@
   }
 }
 
+.peopleCard {
+  background-color: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 36px;
+  flex-basis: 100%;
+  border-radius: 8px;
+
+  @media (--viewportMedium) {
+    flex-basis: calc(50% - 12px);
+    margin-right: 24px;
+  }
+
+  @media (--viewportLarge) {
+    flex-basis: calc(33.33% - 16px);
+    margin-right: 24px;
+  }
+
+  @media (--viewportXLarge) {
+    flex-basis: calc(25% - 6px);
+    margin-right: 24px;
+  }
+}
+
+.peopleCard:nth-of-type(2n) {
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    margin-right: 0;
+  }
+}
+
+.peopleCard:nth-of-type(3n) {
+  @media screen and (min-width: 1024px) and (max-width: 1920px) {
+    margin-right: 0;
+  }
+}
+
+.peopleCard:nth-of-type(4n) {
+  @media (--viewportXLarge) {
+    margin-right: 0;
+  }
+}
+
 .listingCard {
   background-color: white;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);

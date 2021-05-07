@@ -48,16 +48,10 @@ toggleTypeOfList
             className={css.mapIconText}
           />
         </div>
-        <div className={classNames(css.personIcon, !showPeople ? css.giveIcon : null)} onClick={() => toggleTypeOfList()}>
-          <FormattedMessage
-            id={
-              showPeople
-                ? 'SearchFiltersMobile.hidePerson'
-                : 'SearchFiltersMobile.showPerson'
-            }
-            className={css.mapIconText}
-          />
-        </div>
+        <label className={css.container}>Show Gives
+          <input type="checkbox" checked={!showPeople} onClick={toggleTypeOfList}/>
+          <span className={css.checkmark}></span>
+        </label>
       </div>
 
       <div className={css.filters}>

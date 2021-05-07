@@ -242,7 +242,7 @@ export const loadData = (params, search) => {
     perPage: RESULT_PAGE_SIZE,
     include: ['author', 'author.profileImage','images'],
     'fields.listing': ['title', 'geolocation', 'price', 'publicData', 'description'],
-    'fields.user': ['profile.displayName', 'profile.abbreviatedName'],
+    'fields.user': ['profile.displayName', 'profile.abbreviatedName', 'profile.publicData'],
     'fields.image': ['variants.landscape-crop', 'variants.landscape-crop2x'],
     'limit.images': 1,
   });
