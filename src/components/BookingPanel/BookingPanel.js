@@ -11,6 +11,7 @@ import { parse, stringify } from '../../util/urlHelpers';
 import config from '../../config';
 import { ModalInMobile, Button } from '../../components';
 import { BookingTimeForm } from '../../forms';
+import SectionDescriptionMaybe from '../../containers/ListingPage/SectionDescriptionMaybe';
 
 import css from './BookingPanel.module.css';
 
@@ -71,7 +72,9 @@ const BookingPanel = props => {
     lineItems,
     fetchLineItemsInProgress,
     fetchLineItemsError,
-    doneeCompany
+    doneeCompany,
+    noOfDaysAvailable,
+    dayTimeAvailable,
   } = props;
 
   const price = listing.attributes.price;
@@ -127,6 +130,12 @@ const BookingPanel = props => {
           <div className={css.bookingHeadingContainer}>
             <h2 className={titleClasses}>{title}</h2>
             {subTitleText ? <div className={css.bookingHelp}>{subTitleText}</div> : null}
+            <br />
+            <SectionDescriptionMaybe
+              description={noOfDaysAvailable}
+              id="ListingPage.noOfDaysAvailable"
+            />
+            <SectionDescriptionMaybe description={dayTimeAvailable} id="ListingPage.availability" />
           </div>
         </div>
 
@@ -211,6 +220,8 @@ BookingPanel.propTypes = {
   fetchLineItemsInProgress: bool.isRequired,
   fetchLineItemsError: propTypes.error,
   doneeCompany: string,
+  noOfDaysAvailable: string,
+  dayTimeAvailable: string,
 
   // from withRouter
   history: shape({

@@ -454,8 +454,8 @@ export class ListingPageComponent extends Component {
                     filterConfig={filterConfig}
                   />
                   <SectionRulesMaybe publicData={publicData} />
-                  <SectionDescriptionMaybe description={dayTimeAvailable} id="ListingPage.availability" />
-                  <SectionDescriptionMaybe description={noOfDaysAvailable} id="ListingPage.noOfDaysAvailable" />
+                  {/* <SectionDescriptionMaybe description={noOfDaysAvailable} id="ListingPage.noOfDaysAvailable" /> */}
+                  {/* <SectionDescriptionMaybe description={dayTimeAvailable} id="ListingPage.availability" /> */}
                   <SectionMapMaybe
                     geolocation={geolocation}
                     publicData={publicData}
@@ -492,6 +492,8 @@ export class ListingPageComponent extends Component {
                   fetchLineItemsInProgress={fetchLineItemsInProgress}
                   fetchLineItemsError={fetchLineItemsError}
                   doneeCompany={doneeCompany}
+                  dayTimeAvailable={dayTimeAvailable}
+                  noOfDaysAvailable={noOfDaysAvailable}
                 />
               </div>
             </div>

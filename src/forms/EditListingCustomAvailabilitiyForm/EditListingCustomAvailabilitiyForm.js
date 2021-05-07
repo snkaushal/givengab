@@ -73,8 +73,8 @@ const EditListingCustomAvailabilityPanel = props => (
             name="daysAvailable"
             options={daysAvailableOptions}
             intl={intl}
-            label="No. of days available"
-            requiredMessage="No. of days available is required"
+            label="Number of gives per month"
+            requiredMessage="Number of gives per month is required"
             placeholder="How many of these gives will you make available per month"
           />
 
@@ -82,7 +82,7 @@ const EditListingCustomAvailabilityPanel = props => (
             id="dayTimeAvailable"
             name="dayTimeAvailable"
             className={css.description}
-            label="What day and time are you generally most available for this give? (This can be changed with the purchaser if needed)"
+            label="What day and time are you generally most available for this give? (Exact times will be set with user when give is purchased)"
             placeholder="eg. Mon-Fri, 6 - 9 pm"
             validate={required('This field is required')}
           />
