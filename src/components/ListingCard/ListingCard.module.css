@@ -91,6 +91,7 @@
 .mainInfo {
   display: flex;
   flex-direction: column;
+  max-width: 60%;
 }
 
 .title {
