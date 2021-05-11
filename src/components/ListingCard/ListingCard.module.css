@@ -47,6 +47,7 @@
   flex-direction: row;
   padding: 20px 22px;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .price {
