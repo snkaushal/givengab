@@ -6,13 +6,13 @@
 .listingCards {
   padding: 0 24px 96px 24px;
 
-  @media (--viewportMedium) {
+  @media (--viewportSmall) {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
   }
 
-  @media (--viewportLarge) {
+  @media (--viewportXLarge) {
     padding: 0 36px 96px 36px;
   }
 }
@@ -24,35 +24,46 @@
   flex-basis: 100%;
   border-radius: 8px;
 
-  @media (--viewportMedium) {
+  @media (--viewportSmall) {
     flex-basis: calc(50% - 12px);
     margin-right: 24px;
   }
 
-  @media (--viewportLarge) {
+  @media (--viewportMedium) {
     flex-basis: calc(33.33% - 16px);
     margin-right: 24px;
   }
 
+  @media (--viewportLarge) {
+    flex-basis: calc(25% - 18px);
+    margin-right: 24px;
+  }
+
   @media (--viewportXLarge) {
-    flex-basis: calc(25% - 6px);
+    flex-basis: calc(16.66% - 20px);
     margin-right: 24px;
   }
 }
 
 .peopleCard:nth-of-type(2n) {
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
+  @media screen and (min-width: 550px) and (max-width: 768px) {
     margin-right: 0;
   }
 }
 
 .peopleCard:nth-of-type(3n) {
-  @media screen and (min-width: 1024px) and (max-width: 1920px) {
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
     margin-right: 0;
   }
 }
 
 .peopleCard:nth-of-type(4n) {
+  @media screen and (min-width: 1024px) and (max-width: 1920px) {
+    margin-right: 0;
+  }
+}
+
+.peopleCard:nth-of-type(6n) {
   @media (--viewportXLarge) {
     margin-right: 0;
   }

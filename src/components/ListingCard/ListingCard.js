@@ -55,11 +55,13 @@ export const ListingCardComponent = props => {
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureListing(listing);
   const author = ensureUser(listing.author);
+  const priceRange = listing.priceRange;
   const id = showUsers ? author.id.uuid : currentListing.id.uuid;
   const { title = '', price, description } = currentListing.attributes;
   const slug = createSlug(title);
   const authorName = author.attributes.profile.displayName;
   const authorTitle = author.attributes.profile.publicData.title;
+  const authorCompany = author.attributes.profile.publicData.company;
   const firstImage = showUsers ? currentListing.author.profileImage :
     currentListing.images && currentListing.images.length > 0 ? currentListing.images[0] : null;
   const supportedOrg = currentListing.attributes.publicData.localOrg;
@@ -70,9 +72,9 @@ export const ListingCardComponent = props => {
   );
 
   const findSupportedOrg = supportedOrgOptions.find(({ key }) => key === supportedOrg);
-
   const { formattedPrice, priceTitle } = priceData(price, intl);
-
+  const minFormattedPrice = priceRange ? priceRange.min / 100 : 0;
+  const maxFormattedPrice = priceRange ? priceRange.max / 100 : 0
   const params = showUsers ? { id } : { id, slug };
   
   return (
@@ -104,16 +106,23 @@ export const ListingCardComponent = props => {
             <FormattedMessage id="ListingCard.hostedBy" values={{ authorName }} />
           </div>}
           {showUsers && authorTitle && <div className={css.authorInfo}>
-            {authorTitle}
+            {authorTitle} {authorCompany && `@${authorCompany}`}
           </div>}
         </div>
+        {showUsers && priceRange && (
+          <div className={css.price}>
+            <div className={css.priceValue} title={priceTitle}>
+              ${minFormattedPrice} - ${maxFormattedPrice}
+            </div>
+          </div>
+        )} 
         {!showUsers && <div className={css.price}>
           <div className={css.priceValue} title={priceTitle}>
             {formattedPrice}
           </div>
         </div>}
       </div>
-      {findSupportedOrg && <div className={css.description}>{showUsers ? findSupportedOrg.label : description}</div>}
+      {/* {findSupportedOrg && <div className={css.description}>{showUsers ? findSupportedOrg.label : description}</div>} */}
     </NamedLink>
   );
 };

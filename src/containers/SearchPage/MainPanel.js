@@ -175,7 +175,13 @@ class MainPanel extends Component {
     } = this.props;
 
     const primaryFilters = filterConfig.filter(f => f.group === 'primary');
-    const secondaryFilters = filterConfig.filter(f => f.group !== 'primary');
+    let secondaryFilters = filterConfig.filter(f => f.group !== 'primary');
+
+    if (showPeople) {
+      const exchangingFilter = secondaryFilters[0];
+      secondaryFilters[0] = secondaryFilters[1];
+      secondaryFilters[1] = exchangingFilter
+    }
     const hasSecondaryFilters = !!(secondaryFilters && secondaryFilters.length > 0);
 
     // Selected aka active filters

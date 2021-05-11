@@ -85,7 +85,7 @@
 }
 
 .searchFiltersPanel {
-  flex: 1 1 30%;
+  flex: 1 1 20%;
   display: flex;
   padding: 0 24px 24px 24px;
 
@@ -106,7 +106,7 @@
 }
 
 .searchListingsPanel {
-  flex: 1 1 70%;
+  flex: 1 1 80%;
 }
 
 .mapPanel {

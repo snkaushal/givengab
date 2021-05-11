@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { ListingCard, PaginationLinks } from '../../components';
 import { FormattedMessage } from '../../util/reactIntl';
-import uniqBy from 'lodash/uniqBy';
+import { uniqBy } from 'lodash';
 import css from './SearchResultsPanel.module.css';
 
 const SearchResultsPanel = props => {
@@ -43,7 +43,21 @@ const SearchResultsPanel = props => {
   ].join(', ');
 
   const hasNoResult = listingsAreLoaded && resultsCount === 0;
-  const usersListings = uniqBy(listings, 'author.id');
+  const usersListings = uniqBy(listings, 'author.id').map((listing) => {
+    const findListings = listings.filter(({ author: { id } }) => (listing.author.id === id));
+    const priceRange = findListings ? findListings.map(({ attributes: { price: { amount } } }) => amount).sort((a, b) => a - b) : [];
+
+    if (priceRange.length > 0) {
+      return ({
+        ...listing,
+        priceRange: {
+          min: priceRange[0],
+          max: priceRange[priceRange.length - 1],
+        }
+      })
+    }
+    return listing;
+  });
 
   return (
     <div className={classes}>
