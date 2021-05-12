@@ -188,10 +188,11 @@ export class ProfileSettingsPageComponent extends Component {
 
     const companyProfile = publicData && publicData.companyProfile ? publicData.companyProfile : {};
 
-    const noUserProfile = isEmpty(omit(publicData, ['companyProfile']));
+    const noUserProfile = isEmpty(omit(publicData, ['companyProfile', 'hasBeenInvited', 'invitationCode']));
     const submitAsOrg =
       (this.props.location && this.props.location.state && this.props.location.state.submitAsOrg) ||
       !isEmpty(omit(companyProfile, 'name'));
+    debugger;
 
     const profileSettingsForm = user.id ? (
       <ProfileSettingsForm
