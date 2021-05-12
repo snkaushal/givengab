@@ -81,6 +81,16 @@ class ProfileSettingsFormComponent extends Component {
 
           const user = ensureCurrentUser(currentUser);
 
+          const companyProfile =
+            user &&
+            user.attributes &&
+            user.attributes.profile &&
+            user.attributes.profile.publicData &&
+            user.attributes.profile.publicData.companyProfile;
+
+          const { inviteNameFirst, inviteAddressFirst, inviteNameSecond, inviteAddressSecond } =
+            companyProfile || {};
+
           // First name
           const firstNameLabel = intl.formatMessage({
             id: 'ProfileSettingsForm.firstNameLabel',
@@ -639,6 +649,7 @@ class ProfileSettingsFormComponent extends Component {
                         name="inviteNameFirst"
                         label="#1 Name"
                         placeholder="Member name"
+                        disabled={inviteNameFirst}
                       />
                     </div>
                     <div className={css.sectionFields}>
@@ -648,6 +659,7 @@ class ProfileSettingsFormComponent extends Component {
                         name="inviteAddressFirst"
                         label="#1 Email address"
                         placeholder="Member email address"
+                        disabled={inviteAddressFirst}
                       />
                     </div>
                     <div className={css.sectionFields}>
@@ -657,6 +669,7 @@ class ProfileSettingsFormComponent extends Component {
                         name="inviteNameSecond"
                         label="#2 Name"
                         placeholder="Member name"
+                        disabled={inviteNameSecond}
                       />
                     </div>
                     <div className={css.sectionFields}>
@@ -666,6 +679,7 @@ class ProfileSettingsFormComponent extends Component {
                         name="inviteAddressSecond"
                         label="#2 Email address"
                         placeholder="Member email address"
+                        disabled={inviteAddressSecond}
                       />
                     </div>
                   </div>
