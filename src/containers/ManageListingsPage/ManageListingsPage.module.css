@@ -1,4 +1,5 @@
 @import '../../styles/customMediaQueries.css';
+@import '../../styles/propertySets.css';
 
 .root {
 }
@@ -148,5 +149,64 @@
 
   @media (--viewportLarge) {
     margin: auto 36px 0 36px;
+  }
+}
+
+.profileMenuContent {
+  max-width: 276px;
+  padding: 20px;
+}
+
+.profileMenuIsOpen {
+  &:hover {
+    border-bottom: 0;
+  }
+}
+
+.profileMenuLabel {
+  @apply --marketplaceTinyFontStyles;
+  text-align: left;
+  height: auto;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  color: var(--matterColor);
+
+  &:active {
+    border-bottom: 0;
+  }
+}
+
+.inviteInput {
+  @apply --marketplaceH6FontStyles;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > input {
+    width: 40%;
+  }
+}
+
+.error {
+  @apply --marketplaceH6FontStyles;
+  color: var(--failColor);
+}
+
+.success {
+  @apply --marketplaceH6FontStyles;
+  color: var(--successColor);
+}
+
+.createListingLink {
+  display: block;
+  text-align: right;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  & > p {
+    pointer-events: none;
   }
 }

@@ -269,3 +269,11 @@
   max-width: 50%;
   padding-left: 50px;
 }
+
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 24px;
+  margin-right: 12px;
+  text-align: center;
+}

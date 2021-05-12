@@ -15,18 +15,34 @@ import {
   LayoutWrapperMain,
   LayoutWrapperFooter,
   Footer,
-  NamedLink
+  NamedLink,
+  MenuItem,
+  Menu,
+  MenuLabel,
+  MenuContent,
 } from '../../components';
 import { TopbarContainer } from '../../containers';
 
-import { closeListing, openListing, getOwnListingsById, checkInvited } from './ManageListingsPage.duck';
+import {
+  closeListing,
+  openListing,
+  getOwnListingsById,
+  checkInvited,
+  updateProfile,
+} from './ManageListingsPage.duck';
 import css from './ManageListingsPage.module.css';
 
 export class ManageListingsPageComponent extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { listingMenuOpen: null, isInvited: false };
+    this.state = {
+      listingMenuOpen: null,
+      isInvited: null,
+      invitationCode: '',
+      error: '',
+      successMessage: '',
+    };
     this.onToggleMenu = this.onToggleMenu.bind(this);
   }
 
@@ -57,6 +73,24 @@ export class ManageListingsPageComponent extends Component {
       intl,
     } = this.props;
 
+    const invitationCodes = [
+      '3b4ef84c-76a4-4ad7-b435-550b267299b8',
+      '6ae1c8d9-6a30-4fc2-b49b-9072c451a176',
+      '8d18b618-865c-4f8d-9956-0651e59b2e49',
+      '25071067-9de5-453e-b087-1911ba913df3',
+      '12a2d0f2-9251-4ae3-9343-b391954161ac',
+      'bd9099cc-b28c-4964-928a-3a33015057e4',
+      '59080364-946b-46a5-81e7-b4339a7443e3',
+      '2686d5f9-c897-49e0-987f-d015aa339434',
+      'cb364155-6bf7-4d2e-b6c2-d9ae476b49a2',
+      '52323d0c-4eae-4ef1-b887-ebd6b290390c',
+      '3230536b-ceca-4534-9dae-8534d1286529',
+      '1d8dc0b4-432e-4343-997a-e54f40dba3ac',
+      '5712d2d8-cea9-402f-9cb5-29d316c31c33',
+      'cc27d6dd-737a-43d8-baff-5081b41346c6',
+      '17d3e357-b3fb-4313-8009-d1e22de8e604',
+    ];
+
     const hasPaginationInfo = !!pagination && pagination.totalItems != null;
     const listingsAreLoaded = !queryInProgress && hasPaginationInfo;
 
@@ -74,21 +108,83 @@ export class ManageListingsPageComponent extends Component {
 
     const noResults =
       listingsAreLoaded && pagination.totalItems === 0 ? (
-        <div  className={css.title}>
+        <div className={css.title}>
           <h1>
             <FormattedMessage id="ManageListingsPage.noResults" />
           </h1>
-          {this.state.isInvited && (
-            <NamedLink className={css.createListingLink} name="NewListingPage">
-              <span className={css.createListing}>
-                <FormattedMessage id="TopbarDesktop.createListing" />
-              </span>
-            </NamedLink>
-          )}
+          {this.state.isInvited !== null &&
+            (this.state.isInvited ? (
+              <>
+                <NamedLink className={css.createListingLink} name="NewListingPage">
+                  <span>
+                    <FormattedMessage id="TopbarDesktop.createListing" />
+                  </span>
+                  {this.state.successMessage && (
+                    <p className={css.success}>{this.state.successMessage}</p>
+                  )}
+                </NamedLink>
+              </>
+            ) : (
+              <div>
+                <div className={css.inviteInput}>
+                  Please enter your Give&Gab member invitation code here
+                  <input
+                    onChange={e => this.setState({ invitationCode: e.target.value })}
+                    value={this.state.invitationCode}
+                    onKeyPress={e => {
+                      if (e.key === 'Enter') {
+                        if (invitationCodes.includes(this.state.invitationCode)) {
+                          this.props.updateProfile({
+                            publicData: {
+                              hasBeenInvited: true,
+                              invitationCode: this.state.invitationCode,
+                            },
+                          });
+                          this.setState({ isInvited: true });
+                          this.setState({
+                            successMessage:
+                              'Welcome to Give&Gab. Thank you for being an integral member of the Reno/Tahoe community',
+                          });
+                          setTimeout(() => {
+                            this.setState({ successMessage: '' });
+                          }, 3000);
+                        } else {
+                          setTimeout(() => {
+                            this.setState({ error: '' });
+                          }, 3000);
+                          this.setState({ error: 'Your invitation code is not valid' });
+                        }
+                      }
+                    }}
+                  />
+                </div>
+                {this.state.error && <p className={css.error}>{this.state.error}</p>}
+                <Menu>
+                  <MenuLabel
+                    className={css.profileMenuLabel}
+                    isOpenClassName={css.profileMenuIsOpen}
+                  >
+                    How do I become a Give&Gab Member?
+                  </MenuLabel>
+                  <MenuContent className={css.profileMenuContent}>
+                    <MenuItem key="tooltip">
+                      Becoming a Give&Gab Member is invite-only. Only existing Give&Gab Members can
+                      invite you to become a Member. However, they only have a limited number of
+                      invitations at any given time, so you may need to wait. You can request to
+                      become a Member in the Give&Gab community by submitting your information here.
+                      After you’ve received your invitation you will need to create a Profile
+                      describing yourself and your interests. You will also need to create your
+                      minimum of 3 Gives and upload them to your profile. Finally, you will need to
+                      select at least 2 local organizations you wish to support with your Gives.
+                    </MenuItem>
+                  </MenuContent>
+                </Menu>
+              </div>
+            ))}
         </div>
       ) : null;
 
-      const heading =
+    const heading =
       listingsAreLoaded && pagination.totalItems > 0 ? (
         <div className={css.title}>
           <h1>
@@ -254,6 +350,7 @@ const mapDispatchToProps = dispatch => ({
   onCloseListing: listingId => dispatch(closeListing(listingId)),
   onOpenListing: listingId => dispatch(openListing(listingId)),
   checkIfInvited: email => dispatch(checkInvited(email)),
+  updateProfile: payload => dispatch(updateProfile(payload)),
 });
 
 const ManageListingsPage = compose(

@@ -272,6 +272,18 @@ export const checkInvited = email => (dispatch, getState, sdk) => {
     })
     .catch(e => {});
 };
+export const updateProfile = (actionPayload) => {
+  return (dispatch, getState, sdk) => {
+    const queryParams = {
+      expand: true,
+      include: ['profileImage'],
+      'fields.image': ['variants.square-small', 'variants.square-small2x'],
+    };
+
+    return sdk.currentUser
+      .updateProfile(actionPayload, queryParams);
+  };
+};
 
 export const openListing = listingId => (dispatch, getState, sdk) => {
   dispatch(openListingRequest(listingId));

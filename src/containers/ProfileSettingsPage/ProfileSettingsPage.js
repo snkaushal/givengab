@@ -23,6 +23,8 @@ import config from '../../config';
 
 import { updateProfile, uploadImage } from './ProfileSettingsPage.duck';
 import css from './ProfileSettingsPage.module.css';
+import { useLocation } from 'react-router-dom';
+import { isEmpty, isNil, omit, omitBy } from 'lodash';
 
 const onImageUploadHandler = (values, fn) => {
   const { id, imageId, file } = values;
@@ -78,17 +80,29 @@ export class ProfileSettingsPageComponent extends Component {
         secondaryOrganization,
         otherOrganizations,
         willingToIntroduce,
+        website,
+        address,
+        classification,
+        about,
+        tagline,
+        linkedIn,
+        twitter,
+        facebook,
+        postName,
+        postImage,
+        postUrl,
+        postShortDescription,
+        inviteNameFirst,
+        inviteAddressFirst,
+        inviteNameSecond,
+        inviteAddressSecond,
         bio: rawBio,
       } = values;
 
       // Ensure that the optional bio is a string
       const bio = rawBio || '';
-
-      const profile = {
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
-        bio,
-        publicData: {
+      const removeNullProfileValues = omitBy(
+        {
           city,
           objectives,
           interests,
@@ -99,6 +113,61 @@ export class ProfileSettingsPageComponent extends Component {
           secondaryOrganization,
           otherOrganizations,
           willingToIntroduce,
+        },
+        isNil
+      );
+
+      const uuidv4 = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+          const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+
+      const inviteCodes = {};
+      [inviteAddressFirst, inviteAddressSecond].filter(v => v).map((address, i) => {
+        const id = uuidv4();
+        inviteCodes[id] = {
+          email: address,
+          name: i === 0 ? inviteNameFirst : inviteNameSecond,
+          id,
+          used: false,
+        };
+      })
+      
+
+      const removeNullCompanyValues = omitBy(
+        {
+          website,
+          address,
+          classification,
+          about,
+          tagline,
+          linkedIn,
+          twitter,
+          facebook,
+          postName,
+          postImage,
+          postUrl,
+          postShortDescription,
+          inviteNameFirst,
+          inviteAddressFirst,
+          inviteNameSecond,
+          inviteAddressSecond,
+          name: firstName,
+          inviteCodes,
+        },
+        isNil
+      );
+
+      const profile = {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        bio,
+        publicData: {},
+        publicData: {
+          ...removeNullProfileValues,
+          companyProfile: removeNullCompanyValues,
         },
       };
       const uploadedImage = this.props.image;
@@ -117,6 +186,13 @@ export class ProfileSettingsPageComponent extends Component {
     const profileImageId = user.profileImage ? user.profileImage.id : null;
     const profileImage = image || { imageId: profileImageId };
 
+    const companyProfile = publicData && publicData.companyProfile ? publicData.companyProfile : {};
+
+    const noUserProfile = isEmpty(omit(publicData, ['companyProfile']));
+    const submitAsOrg =
+      (this.props.location && this.props.location.state && this.props.location.state.submitAsOrg) ||
+      !isEmpty(omit(companyProfile, 'name'));
+
     const profileSettingsForm = user.id ? (
       <ProfileSettingsForm
         className={css.form}
@@ -132,6 +208,22 @@ export class ProfileSettingsPageComponent extends Component {
           secondaryOrganization: publicData.secondaryOrganization,
           otherOrganizations: publicData.otherOrganizations,
           willingToIntroduce: publicData.willingToIntroduce,
+          website: companyProfile.website,
+          address: companyProfile.address,
+          classification: companyProfile.classification,
+          about: companyProfile.about,
+          tagline: companyProfile.tagline,
+          linkedIn: companyProfile.linkedIn,
+          twitter: companyProfile.twitter,
+          facebook: companyProfile.facebook,
+          postName: companyProfile.postName,
+          postImage: companyProfile.postImage,
+          postUrl: companyProfile.postUrl,
+          postShortDescription: companyProfile.postShortDescription,
+          inviteNameFirst: companyProfile.inviteNameFirst,
+          inviteAddressFirst: companyProfile.inviteAddressFirst,
+          inviteNameSecond: companyProfile.inviteNameSecond,
+          inviteAddressSecond: companyProfile.inviteAddressSecond,
           firstName,
           lastName,
           bio,
@@ -147,6 +239,8 @@ export class ProfileSettingsPageComponent extends Component {
         objectiveOptions={objectiveOptions}
         options={options}
         profileImage={profileImage}
+        submitAsOrg={submitAsOrg}
+        noProfileYet={noUserProfile}
       />
     ) : null;
 

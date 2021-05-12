@@ -93,6 +93,14 @@ const Footer = props => {
                     <FormattedMessage id="Footer.toFAQPage" />
                   </NamedLink>
                 </li>
+                <li className={css.listItem}>
+                  <NamedLink name="ProfileSettingsPage" className={css.link} to={{
+                    state: {
+                    submitAsOrg: true,
+                  }}}>
+                    <FormattedMessage id="Footer.submitOrg" />
+                  </NamedLink>
+                </li>
                 {/* <li className={css.listItem}>
                   <NamedLink name="LandingPage" to={{ hash: '#contact' }} className={css.link}>
                     <FormattedMessage id="Footer.toContactPage" />
