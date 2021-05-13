@@ -67,6 +67,9 @@ const sdkClientId = process.env.REACT_APP_SHARETRIBE_SDK_CLIENT_ID;
 const sdkBaseUrl = process.env.REACT_APP_SHARETRIBE_SDK_BASE_URL;
 const sdkTransitVerbose = process.env.REACT_APP_SHARETRIBE_SDK_TRANSIT_VERBOSE === 'true';
 
+const sdkIntegrationClientId = process.env.REACT_APP_SHARETRIBE_INTEGRATION_SDK_CLIENT_ID;
+const sdkIntegrationClientSecret = process.env.REACT_APP_SHARETRIBE_INTEGRATION_SDK_CLIENT_SECRET;
+
 const curr = process.env.REACT_APP_SHARETRIBE_MARKETPLACE_CURRENCY;
 const currency = curr.toUpperCase();
 
@@ -190,6 +193,8 @@ const maps = {
   },
 };
 
+console.log(sdkIntegrationClientSecret, process.env.REACT_APP_SHARETRIBE_INTEGRATION_SDK_CLIENT_SECRET, process.env);
+
 // NOTE: only expose configuration that should be visible in the
 // client side, don't add any server secrets in this file.
 const config = {
@@ -204,7 +209,7 @@ const config = {
   sdk: {
     clientId: sdkClientId,
     baseUrl: sdkBaseUrl,
-    transitVerbose: sdkTransitVerbose,
+    transitVerbose: sdkTransitVerbose
   },
   sortSearchByDistance,
   currency,
@@ -231,6 +236,8 @@ const config = {
   usingSSL,
   maps,
   custom,
+  integrationClientId: sdkIntegrationClientId,
+  integrationSecretId: sdkIntegrationClientSecret,
 };
 
 export default config;

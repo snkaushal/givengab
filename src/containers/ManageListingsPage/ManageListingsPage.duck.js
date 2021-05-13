@@ -1,6 +1,13 @@
 import { updatedEntities, denormalisedEntities } from '../../util/data';
 import { storableError } from '../../util/errors';
 import { parse } from '../../util/urlHelpers';
+import config from '../../config';
+const sharetribeIntegrationSdk = require('sharetribe-flex-integration-sdk');
+
+const integrationSdk = sharetribeIntegrationSdk.createInstance({
+  clientId: config.integrationClientId,
+  clientSecret: config.integrationSecretId,
+});
 
 // Pagination page size might need to be dynamic on responsive page layouts
 // Current design has max 3 columns 42 is divisible by 2 and 3
@@ -252,6 +259,30 @@ export const closeListing = listingId => (dispatch, getState, sdk) => {
     });
 };
 
+export const checkInvitationCode = (inviteCode, email) => (dispatch, getState, sdk) => {
+  return integrationSdk.users.query({ 'fields.listing': 'publicData' }).then(res => {
+    const users = res.data.data;
+    const userWhoInvited = users.filter(({ attributes }) => {
+      const inviteCodes =
+        attributes.profile &&
+        attributes.profile.publicData &&
+        attributes.profile.publicData.companyProfile &&
+        attributes.profile.publicData.companyProfile.inviteCodes;
+      if (inviteCodes && inviteCodes[inviteCode] && inviteCodes[inviteCode].email === email) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (userWhoInvited.length > 0) {
+      return true;
+    }
+
+    return false;
+  });
+};
+
 export const checkInvited = email => (dispatch, getState, sdk) => {
   return sdk.listings
     .query({ 'fields.listing': 'publicData' })
@@ -268,11 +299,13 @@ export const checkInvited = email => (dispatch, getState, sdk) => {
       const isInvited =
         !!usersAllowed.find(user => decode(user).includes(email)) ||
         ['skaushal@ioterra.com', 'ddelaveaga@ioterra.com', 'dprice@ioterra.com'].includes(email);
+
       return isInvited;
     })
     .catch(e => {});
 };
-export const updateProfile = (actionPayload) => {
+
+export const updateProfile = actionPayload => {
   return (dispatch, getState, sdk) => {
     const queryParams = {
       expand: true,
@@ -280,8 +313,7 @@ export const updateProfile = (actionPayload) => {
       'fields.image': ['variants.square-small', 'variants.square-small2x'],
     };
 
-    return sdk.currentUser
-      .updateProfile(actionPayload, queryParams);
+    return sdk.currentUser.updateProfile(actionPayload, queryParams);
   };
 };
 
