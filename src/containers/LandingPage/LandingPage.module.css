@@ -1,19 +1,18 @@
 @import '../../styles/customMediaQueries.css';
 
 .main {
+  display: block;
+}
+
+.main > img {
+  width: 100%;
 }
 
 .main > img:not(:last-child) {
   padding: 20px 10px 0 10px;
-  @media (--viewportMedium) {
-    padding: 80px 10% 0 10%;
-  }
-}
 
-.main > img:nth-child(2) {
-  padding: 20px 10px 0 10px;
-  @media (--viewportMedium) {
-    padding: 20px 10% 0 10%;
+  @media (--viewportLarge) {
+    padding: 80px 10% 0 10%;
   }
 }
 
