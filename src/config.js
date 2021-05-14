@@ -193,8 +193,6 @@ const maps = {
   },
 };
 
-console.log(sdkIntegrationClientSecret, process.env.REACT_APP_SHARETRIBE_INTEGRATION_SDK_CLIENT_SECRET, process.env);
-
 // NOTE: only expose configuration that should be visible in the
 // client side, don't add any server secrets in this file.
 const config = {
