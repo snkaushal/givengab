@@ -22,6 +22,7 @@ import {
 } from '../../components';
 
 import css from './ProfileSettingsForm.module.css';
+import { isEmpty } from 'lodash';
 
 const ACCEPT_IMAGES = 'image/*';
 const UPLOAD_CHANGE_DELAY = 2000; // Show spinner so that browser has time to load img srcset
@@ -88,8 +89,20 @@ class ProfileSettingsFormComponent extends Component {
             user.attributes.profile.publicData &&
             user.attributes.profile.publicData.companyProfile;
 
+          const inviteCodes = companyProfile && companyProfile.inviteCodes;
+
+          debugger;
+
           const { inviteNameFirst, inviteAddressFirst, inviteNameSecond, inviteAddressSecond } =
             companyProfile || {};
+
+          const firstInvite =
+            !isEmpty(inviteCodes) && Object.values(inviteCodes).find(({ email }) => email === inviteAddressFirst);
+          const firstInviteCode = !isEmpty(firstInvite) && firstInvite.id;
+
+          const secondInvite =
+            !isEmpty(inviteCodes) && Object.values(inviteCodes).find(({ email }) => email === inviteAddressSecond);
+          const secondInviteCode = !isEmpty(secondInvite) && secondInvite.id;
 
           // First name
           const firstNameLabel = intl.formatMessage({
@@ -662,6 +675,9 @@ class ProfileSettingsFormComponent extends Component {
                         disabled={inviteAddressFirst}
                       />
                     </div>
+
+                    {firstInviteCode && <p><b>Invite code:</b> {firstInviteCode}</p>}
+
                     <div className={css.sectionFields}>
                       <FieldTextInput
                         type="text"
@@ -681,7 +697,9 @@ class ProfileSettingsFormComponent extends Component {
                         placeholder="Member email address"
                         disabled={inviteAddressSecond}
                       />
-                    </div>
+                      </div>
+                      
+                      {secondInviteCode && <p><b>Invite code:</b> {secondInviteCode}</p>}
                   </div>
                 </>
               )}

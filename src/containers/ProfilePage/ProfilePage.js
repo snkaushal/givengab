@@ -96,7 +96,7 @@ export class ProfilePageComponent extends Component {
       profileUser.attributes.profile.publicData;
 
     const companyProfile = publicData && publicData.companyProfile ? publicData.companyProfile : {};
-    const isCompany = !isEmpty(omit(companyProfile, 'name'));
+    const isCompany = !isEmpty(omit(companyProfile, 'name', 'inviteCodes'));
 
     const {
       name,

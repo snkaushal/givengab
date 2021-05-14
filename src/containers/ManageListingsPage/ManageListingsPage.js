@@ -75,24 +75,6 @@ export class ManageListingsPageComponent extends Component {
       checkInvitationCode
     } = this.props;
 
-    // const invitationCodes = [
-    //   '3b4ef84c-76a4-4ad7-b435-550b267299b8',
-    //   '6ae1c8d9-6a30-4fc2-b49b-9072c451a176',
-    //   '8d18b618-865c-4f8d-9956-0651e59b2e49',
-    //   '25071067-9de5-453e-b087-1911ba913df3',
-    //   '12a2d0f2-9251-4ae3-9343-b391954161ac',
-    //   'bd9099cc-b28c-4964-928a-3a33015057e4',
-    //   '59080364-946b-46a5-81e7-b4339a7443e3',
-    //   '2686d5f9-c897-49e0-987f-d015aa339434',
-    //   'cb364155-6bf7-4d2e-b6c2-d9ae476b49a2',
-    //   '52323d0c-4eae-4ef1-b887-ebd6b290390c',
-    //   '3230536b-ceca-4534-9dae-8534d1286529',
-    //   '1d8dc0b4-432e-4343-997a-e54f40dba3ac',
-    //   '5712d2d8-cea9-402f-9cb5-29d316c31c33',
-    //   'cc27d6dd-737a-43d8-baff-5081b41346c6',
-    //   '17d3e357-b3fb-4313-8009-d1e22de8e604',
-    // ];
-
     const hasPaginationInfo = !!pagination && pagination.totalItems != null;
     const listingsAreLoaded = !queryInProgress && hasPaginationInfo;
 

@@ -162,7 +162,7 @@ export class ProfileSettingsPageComponent extends Component {
 
       const profile = {
         firstName: firstName.trim(),
-        lastName: lastName.trim(),
+        lastName: isEmpty(omit(removeNullCompanyValues, 'name')) ?  lastName.trim() : " ",
         bio,
         publicData: {},
         publicData: {
