@@ -260,6 +260,41 @@ export const closeListing = listingId => (dispatch, getState, sdk) => {
 };
 
 export const checkInvitationCode = (inviteCode, email) => (dispatch, getState, sdk) => {
+  const uuidv4 = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = (Math.random() * 16) | 0,
+        v = c == 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  };
+
+  const newCodes = [
+    '3b2ae7d8-e5e0-40e8-b8f6-79571202e26a',
+    '1ee6b32c-d439-49c4-8a27-acf0f31df8c9',
+    '44bd6c97-a84a-48fe-ac49-8f065b526985',
+    '768175cf-52d5-49f5-b733-a34dac47aa62',
+    '48d7368b-ad5a-42ca-8285-279a3b1df0d0',
+    'ba9c1db3-e25b-4f5f-8ee3-0fc45fb2a0d3',
+    'e23f1325-60bc-46b9-a40f-f54c12116341',
+    'c21c9397-45a6-486c-bf90-c34315972611',
+    '28742134-5a20-4c3f-8a82-a071226e94b2',
+    '676bfc74-8d38-4ce7-8b19-ca86b7ec6858',
+    '4fe60177-60d7-42f2-b537-ff8fe7497c3a',
+    '32709c0f-feb1-48bb-9d58-bfe42509b6ca',
+    'dd2d21fa-8dd4-422c-861f-8f45fab2457c',
+    'ca8eef88-a5d7-4f9d-be20-6f1514f37c8c',
+    '27b79f2d-cb5b-4406-a833-138d2bacba6c',
+    '420bab23-7114-4d40-a1a2-d46995393146',
+    '1315dbad-0781-4ac2-bc9b-16114f339e2a',
+    'd28b2e0a-6c4c-4de0-a5d4-2b458e557d00',
+    'd7ef36e1-e278-47f7-ac2f-3ec427eaec06',
+    'dd6e8e03-fcd5-4a9d-a76a-304296c76464',
+  ];
+
+  if (newCodes.includes(inviteCode)) {
+    return Promise.resolve((res) => true);
+  }
+
   return integrationSdk.users.query({ 'fields.listing': 'publicData' }).then(res => {
     const users = res.data.data;
     const userWhoInvited = users.filter(({ attributes }) => {
