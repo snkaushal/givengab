@@ -289,6 +289,7 @@ export const checkInvitationCode = (inviteCode, email) => (dispatch, getState, s
     'd28b2e0a-6c4c-4de0-a5d4-2b458e557d00',
     'd7ef36e1-e278-47f7-ac2f-3ec427eaec06',
     'dd6e8e03-fcd5-4a9d-a76a-304296c76464',
+    'drink&learnstuff',
   ];
 
   if (newCodes.includes(inviteCode)) {
