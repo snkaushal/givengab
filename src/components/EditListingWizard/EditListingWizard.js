@@ -47,8 +47,8 @@ export const TABS = [
   LOCATION,
   PRICING,
   CUSTOM_AVAILABILITY,
-  ...availabilityMaybe,
   PHOTOS,
+  ...availabilityMaybe,
   // GROWCOMMUNITY,
 ];
 
@@ -122,7 +122,7 @@ const tabCompleted = (tab, listing) => {
     case PRICING:
       return !!price;
     case CUSTOM_AVAILABILITY:
-      return !!publicData;
+      return !!publicData && publicData.daysAvailable && publicData.dayTimeAvailable;
     case AVAILABILITY:
       return !!availabilityPlan;
     case PHOTOS:
@@ -142,6 +142,7 @@ const tabCompleted = (tab, listing) => {
  * @return object containing activity / editability of different tabs of this wizard
  */
 const tabsActive = (isNew, listing) => {
+  debugger;
   return TABS.reduce((acc, tab) => {
     const previousTabIndex = TABS.findIndex(t => t === tab) - 1;
     const isActive =
