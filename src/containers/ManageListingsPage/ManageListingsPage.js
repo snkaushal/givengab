@@ -338,7 +338,7 @@ const mapDispatchToProps = dispatch => ({
   onOpenListing: listingId => dispatch(openListing(listingId)),
   checkIfInvited: email => dispatch(checkInvited(email)),
   updateProfile: payload => dispatch(updateProfile(payload)),
-  checkInvitationCode: (inviteCode, email) => dispatch(checkInvitationCode(inviteCode, email)),
+  checkInvitationCode: (inviteCode) => dispatch(checkInvitationCode(inviteCode)),
 });
 
 const ManageListingsPage = compose(

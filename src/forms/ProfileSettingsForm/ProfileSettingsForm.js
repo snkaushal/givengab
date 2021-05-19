@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { array, bool, string } from 'prop-types';
+import { func, bool, string } from 'prop-types';
 import { compose } from 'redux';
 import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
 import { Field, Form as FinalForm } from 'react-final-form';
@@ -77,31 +77,35 @@ class ProfileSettingsFormComponent extends Component {
             objectiveOptions,
             options,
             submitAsOrg,
-            noProfileYet,
+            changedSubmitAsOrg,
           } = fieldRenderProps;
 
           const user = ensureCurrentUser(currentUser);
 
-          const companyProfile =
-            user &&
+          const publicData = user &&
             user.attributes &&
             user.attributes.profile &&
-            user.attributes.profile.publicData &&
+            user.attributes.profile.publicData;
+
+          const companyProfile =
+          publicData &&
             user.attributes.profile.publicData.companyProfile;
 
           const inviteCodes = companyProfile && companyProfile.inviteCodes;
 
-          debugger;
+          const hasSubmitAsOrg = publicData.submitAsOrg;
 
           const { inviteNameFirst, inviteAddressFirst, inviteNameSecond, inviteAddressSecond } =
             companyProfile || {};
 
           const firstInvite =
-            !isEmpty(inviteCodes) && Object.values(inviteCodes).find(({ email }) => email === inviteAddressFirst);
+            !isEmpty(inviteCodes) &&
+            Object.values(inviteCodes).find(({ email }) => email === inviteAddressFirst);
           const firstInviteCode = !isEmpty(firstInvite) && firstInvite.id;
 
           const secondInvite =
-            !isEmpty(inviteCodes) && Object.values(inviteCodes).find(({ email }) => email === inviteAddressSecond);
+            !isEmpty(inviteCodes) &&
+            Object.values(inviteCodes).find(({ email }) => email === inviteAddressSecond);
           const secondInviteCode = !isEmpty(secondInvite) && secondInvite.id;
 
           // First name
@@ -138,6 +142,7 @@ class ProfileSettingsFormComponent extends Component {
           const companyNameRequiredMessage = intl.formatMessage({
             id: 'ProfileSettingsForm.companyNameRequired',
           });
+
           const companyNameRequired = validators.required(companyNameRequiredMessage);
 
           const uploadingOverlay =
@@ -197,7 +202,7 @@ class ProfileSettingsFormComponent extends Component {
             ) : (
               <div className={css.avatarPlaceholder}>
                 <div className={css.avatarPlaceholderText}>
-                  <FormattedMessage id="ProfileSettingsForm.addYourProfilePicture" />
+                  <FormattedMessage id={submitAsOrg ? "ProfileSettingsForm.addYourLogo" :"ProfileSettingsForm.addYourProfilePicture"} />
                 </div>
                 <div className={css.avatarPlaceholderTextMobile}>
                   <FormattedMessage id="ProfileSettingsForm.addYourProfilePictureMobile" />
@@ -302,22 +307,30 @@ class ProfileSettingsFormComponent extends Component {
                     );
                   }}
                 </Field>
-                <div className={css.tip}>
+                {!submitAsOrg && <div className={css.tip}>
                   <FormattedMessage id="ProfileSettingsForm.tip" />
-                </div>
+                </div>}
                 <div className={css.fileInfo}>
                   <FormattedMessage id="ProfileSettingsForm.fileInfo" />
                 </div>
               </div>
-              {submitAsOrg && !noProfileYet && (
-                <>
-                  <div className={css.error}>
-                    <FormattedMessage id="ProfileSettingsForm.submitAnOrgError" />
-                  </div>
-                  <br />
-                </>
-              )}
-              {!(submitAsOrg && noProfileYet) ? (
+
+              <FieldSelect
+                name="submitAsOrg"
+                id="submitAsOrg"
+                label="Creating profile for an organization"
+                onChange={(value) => { changedSubmitAsOrg(value) }}
+                disabled={!!hasSubmitAsOrg}
+              >
+                <option key="No" value="No">
+                  No
+                </option>
+                <option key="Yes" value="Yes">
+                  Yes
+                </option>
+              </FieldSelect>
+
+              {!(submitAsOrg) ? (
                 <>
                   <div className={css.sectionContainer}>
                     <h3 className={css.sectionTitle}>
@@ -676,7 +689,11 @@ class ProfileSettingsFormComponent extends Component {
                       />
                     </div>
 
-                    {firstInviteCode && <p><b>Invite code:</b> {firstInviteCode}</p>}
+                    {firstInviteCode && (
+                      <p>
+                        <b>Invite code:</b> {firstInviteCode}
+                      </p>
+                    )}
 
                     <div className={css.sectionFields}>
                       <FieldTextInput
@@ -697,9 +714,13 @@ class ProfileSettingsFormComponent extends Component {
                         placeholder="Member email address"
                         disabled={inviteAddressSecond}
                       />
-                      </div>
-                      
-                      {secondInviteCode && <p><b>Invite code:</b> {secondInviteCode}</p>}
+                    </div>
+
+                    {secondInviteCode && (
+                      <p>
+                        <b>Invite code:</b> {secondInviteCode}
+                      </p>
+                    )}
                   </div>
                 </>
               )}
@@ -740,6 +761,7 @@ ProfileSettingsFormComponent.propTypes = {
   updateProfileReady: bool,
   submitAsOrg: bool,
   noProfileYet: bool,
+  changedSubmitAsOrg: func,
 
   // from injectIntl
   intl: intlShape.isRequired,

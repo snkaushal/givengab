@@ -259,15 +259,7 @@ export const closeListing = listingId => (dispatch, getState, sdk) => {
     });
 };
 
-export const checkInvitationCode = (inviteCode, email) => (dispatch, getState, sdk) => {
-  const uuidv4 = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      const r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  };
-
+export const checkInvitationCode = (inviteCode) => (dispatch, getState, sdk) => {
   const newCodes = [
     '3b2ae7d8-e5e0-40e8-b8f6-79571202e26a',
     '1ee6b32c-d439-49c4-8a27-acf0f31df8c9',
@@ -304,7 +296,9 @@ export const checkInvitationCode = (inviteCode, email) => (dispatch, getState, s
         attributes.profile.publicData &&
         attributes.profile.publicData.companyProfile &&
         attributes.profile.publicData.companyProfile.inviteCodes;
-      if (inviteCodes && inviteCodes[inviteCode] && inviteCodes[inviteCode].email === email) {
+      
+      debugger;
+      if (inviteCodes && inviteCodes[inviteCode]) {
         return true;
       }
 

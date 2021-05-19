@@ -34,6 +34,14 @@ const onImageUploadHandler = (values, fn) => {
 };
 
 export class ProfileSettingsPageComponent extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      submitAsOrg: "No",
+    };
+  }
+
   render() {
     const {
       currentUser,
@@ -167,6 +175,7 @@ export class ProfileSettingsPageComponent extends Component {
         publicData: {},
         publicData: {
           ...removeNullProfileValues,
+          submitAsOrg: this.state.submitAsOrg,
           companyProfile: removeNullCompanyValues,
         },
       };
@@ -188,10 +197,7 @@ export class ProfileSettingsPageComponent extends Component {
 
     const companyProfile = publicData && publicData.companyProfile ? publicData.companyProfile : {};
 
-    const noUserProfile = isEmpty(omit(publicData, ['companyProfile', 'hasBeenInvited', 'invitationCode']));
-    const submitAsOrg =
-      (this.props.location && this.props.location.state && this.props.location.state.submitAsOrg) ||
-      !isEmpty(omit(companyProfile, 'name'));
+    const submitAsOrg = this.state.submitAsOrg === "Yes" || publicData && publicData.submitAsOrg;
 
     const profileSettingsForm = user.id ? (
       <ProfileSettingsForm
@@ -224,6 +230,7 @@ export class ProfileSettingsPageComponent extends Component {
           inviteAddressFirst: companyProfile.inviteAddressFirst,
           inviteNameSecond: companyProfile.inviteNameSecond,
           inviteAddressSecond: companyProfile.inviteAddressSecond,
+          submitAsOrg: publicData.submitAsOrg,
           firstName,
           lastName,
           bio,
@@ -240,7 +247,7 @@ export class ProfileSettingsPageComponent extends Component {
         options={options}
         profileImage={profileImage}
         submitAsOrg={submitAsOrg}
-        noProfileYet={noUserProfile}
+        changedSubmitAsOrg={(submitAsOrg) => this.setState(({ submitAsOrg }))}
       />
     ) : null;
 
