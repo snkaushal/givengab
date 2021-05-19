@@ -22,19 +22,19 @@ import {
   ListingCard,
   Reviews,
   ButtonTabNavHorizontal,
-  IconSocialMediaFacebook,
-  IconSocialMediaTwitter,
   ExternalLink,
 } from '../../components';
 import { TopbarContainer, NotFoundPage } from '..';
 import config from '../../config';
 import UserIcon from './UserIcon.svg';
 import Location from './Location.svg';
-import Links from './Links.svg';
+import LinkedIn from './LinkedIn.svg';
+import Facebook from './Facebook.svg';
+import Website from './Website.svg';
+import Twitter from './Twitter.svg';
 import { findOptionsForSelectFilter } from '../../util/search';
 
 import css from './ProfilePage.module.css';
-import { isEmpty, omit } from 'lodash';
 
 const MAX_MOBILE_SCREEN_WIDTH = 768;
 
@@ -96,7 +96,7 @@ export class ProfilePageComponent extends Component {
       profileUser.attributes.profile.publicData;
 
     const companyProfile = publicData && publicData.companyProfile ? publicData.companyProfile : {};
-    const isCompany = !isEmpty(omit(companyProfile, 'name', 'inviteCodes'));
+    const isCompany = publicData && publicData.submitAsOrg;
 
     const {
       name,
@@ -246,37 +246,50 @@ export class ProfilePageComponent extends Component {
 
     const mainContent = (
       <div>
-        <h1 className={css.desktopHeading}>
-          {isCompany ? (
-            <FormattedMessage id="ProfilePage.desktopCompanyHeading" values={{ name }} />
-          ) : (
-            <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
+        <div className={css.headingContainer}>
+          <h1 className={css.desktopHeading}>
+            {isCompany ? (
+              <FormattedMessage id="ProfilePage.desktopCompanyHeading" values={{ name }} />
+            ) : (
+              <FormattedMessage id="ProfilePage.desktopHeading" values={{ name: displayName }} />
+            )}
+          </h1>
+          {isCompany && (
+            <div>
+              {facebook && (
+                <ExternalLink
+                  key="linkToFacebook"
+                  href={facebook}
+                  className={css.icon}
+                  title={'Facebook link'}
+                >
+                  <img src={Facebook} />
+                </ExternalLink>
+              )}
+              {twitter && (
+                <ExternalLink
+                  key="linkToTwitter"
+                  href={twitter}
+                  className={css.icon}
+                  title={'Twitter link'}
+                >
+                  <img src={Twitter} />
+                </ExternalLink>
+              )}
+              {linkedIn && (
+                <ExternalLink
+                  key="linkToLinkedIn"
+                  href={linkedIn}
+                  className={css.icon}
+                  title={'LinkedIn link'}
+                >
+                  <img src={LinkedIn} />
+                </ExternalLink>
+              )}
+            </div>
           )}
-        </h1>
-        {isCompany && (
-          <>
-            {facebook && (
-              <ExternalLink
-                key="linkToFacebook"
-                href={facebook}
-                className={css.icon}
-                title={'Facebook link'}
-              >
-                <IconSocialMediaFacebook />
-              </ExternalLink>
-            )}
-            {twitter && (
-              <ExternalLink
-                key="linkToTwitter"
-                href={twitter}
-                className={css.icon}
-                title={"Twitter link"}
-              >
-                <IconSocialMediaTwitter />
-              </ExternalLink>
-            )}
-          </>
-        )}
+        </div>
+        {tagline && <i>{tagline}</i>}
         <div className={css.userDetails}>
           {(hasCompany || hasTitle) && (
             <div>
@@ -300,14 +313,21 @@ export class ProfilePageComponent extends Component {
           )}
           {hasLinks && (
             <div>
-              <img src={Links} />
+              <img src={Website} />
               <span>{links.split(',').map(link => link)}</span>
             </div>
           )}
           {website && (
             <div>
-              <img src={Links} />
-              {website}
+              <img src={Website} />
+              <ExternalLink
+                key="linkToWebsite"
+                href={website}
+                className={css.icon}
+                title={'Website link'}
+              >
+                {website}
+              </ExternalLink>
             </div>
           )}
         </div>
@@ -344,12 +364,6 @@ export class ProfilePageComponent extends Component {
               <div className={css.objectives}>
                 <h2>About the company</h2>
                 <p className={css.interests}>{about}</p>
-              </div>
-            )}
-            {tagline && (
-              <div className={css.orgs}>
-                <h2>Tagline of the company</h2>
-                <div className={css.list}>{tagline}</div>
               </div>
             )}
           </div>

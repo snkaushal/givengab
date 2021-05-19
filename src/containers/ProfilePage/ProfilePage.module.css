@@ -272,8 +272,13 @@
 
 .icon {
   display: inline-block;
-  width: 20px;
-  height: 24px;
+  width: auto;
+  height: auto;
   margin-right: 12px;
   text-align: center;
+}
+
+.headingContainer {
+  display: flex;
+  justify-content: space-between;
 }
