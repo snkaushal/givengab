@@ -104,6 +104,7 @@ export class ProfileSettingsPageComponent extends Component {
         inviteAddressFirst,
         inviteNameSecond,
         inviteAddressSecond,
+        submitAsOrg: submitAsOrgFromForm,
         bio: rawBio,
       } = values;
 
@@ -170,12 +171,12 @@ export class ProfileSettingsPageComponent extends Component {
 
       const profile = {
         firstName: firstName.trim(),
-        lastName: isEmpty(omit(removeNullCompanyValues, 'name')) ?  lastName.trim() : " ",
+        lastName: submitAsOrgFromForm !== "Yes" ?  lastName.trim() : " ",
         bio,
         publicData: {},
         publicData: {
           ...removeNullProfileValues,
-          submitAsOrg: this.state.submitAsOrg,
+          submitAsOrg: submitAsOrgFromForm,
           companyProfile: removeNullCompanyValues,
         },
       };
@@ -197,7 +198,7 @@ export class ProfileSettingsPageComponent extends Component {
 
     const companyProfile = publicData && publicData.companyProfile ? publicData.companyProfile : {};
 
-    const submitAsOrg = this.state.submitAsOrg === "Yes" || publicData && publicData.submitAsOrg;
+    const submitAsOrg = this.state.submitAsOrg === "Yes" || publicData && publicData.submitAsOrg === "Yes";
 
     const profileSettingsForm = user.id ? (
       <ProfileSettingsForm
