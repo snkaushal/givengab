@@ -13,7 +13,7 @@
 
   /* Baseline adjustment for label text */
   margin-top: 0;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   padding: 4px 0 2px 0;
 }
 
@@ -21,6 +21,7 @@
   color: var(--matterColorDark);
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .filterLabelSelected {
@@ -50,7 +51,8 @@
 
   /* Override button styles */
   outline: none;
-  text-align: left;
+  width: 100%;
+  text-align: right;
   border: none;
 
   &:focus,
@@ -66,4 +68,26 @@
 
 .isOpen {
   display: block;
+}
+
+.up {
+  border: solid black;
+  cursor: pointer;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-right: 2px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  border: solid black;
+  cursor: pointer;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-right: 2px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
 }

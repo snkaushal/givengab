@@ -23,6 +23,7 @@
   margin-bottom: 36px;
   flex-basis: 100%;
   border-radius: 8px;
+  overflow: hidden;
 
   @media (--viewportSmall) {
     flex-basis: calc(50% - 12px);

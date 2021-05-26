@@ -294,6 +294,8 @@ class MainPanel extends Component {
           onCloseModal={onCloseModal}
           resetAll={this.resetAll}
           selectedFiltersCount={selectedFiltersCount}
+          showPeople={showPeople}
+          toggleTypeOfList={toggleTypeOfList}
         >
           {filterConfig.map(config => {
             return (

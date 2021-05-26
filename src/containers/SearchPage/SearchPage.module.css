@@ -86,6 +86,7 @@
 
 .searchFiltersPanel {
   flex: 1 1 20%;
+  min-width: 20%;
   display: flex;
   padding: 0 24px 24px 24px;
 

@@ -73,6 +73,8 @@ class SearchFiltersMobileComponent extends Component {
       onManageDisableScrolling,
       selectedFiltersCount,
       intl,
+      showPeople,
+      toggleTypeOfList
     } = this.props;
 
     const classes = classNames(rootClassName || css.root, className);
@@ -111,6 +113,18 @@ class SearchFiltersMobileComponent extends Component {
           <div className={css.mapIcon} onClick={onMapIconClick}>
             <FormattedMessage id="SearchFiltersMobile.openMapView" className={css.mapIconText} />
           </div>
+        </div>
+        <div>
+        <br />
+        <label className={css.container}>Browse gives
+          <input type="radio" name="radio" checked={!showPeople} onClick={toggleTypeOfList}/>
+          <span className={css.checkmark}></span>
+        </label>
+
+        <label className={css.container}>Browse users
+          <input type="radio" name="radio" checked={showPeople} onClick={toggleTypeOfList}/>
+          <span className={css.checkmark}></span>
+        </label>
         </div>
         <ModalInMobile
           id="SearchFiltersMobile.filters"
@@ -166,6 +180,8 @@ SearchFiltersMobileComponent.propTypes = {
   onCloseModal: func.isRequired,
   resetAll: func.isRequired,
   selectedFiltersCount: number,
+  showPeople: bool.isRequired,
+  toggleTypeOfList: func.isRequired,
 
   // from injectIntl
   intl: intlShape.isRequired,

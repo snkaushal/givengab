@@ -12,7 +12,7 @@ const getQueryParamName = queryParamNames => {
 class SelectSingleFilterPlain extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: true };
+    this.state = { isOpen: false };
     this.selectOption = this.selectOption.bind(this);
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
   }
@@ -65,9 +65,12 @@ class SelectSingleFilterPlain extends Component {
           <button className={css.labelButton} onClick={this.toggleIsOpen}>
             <span className={labelClass}>{label}</span>
           </button>
-          <button className={css.clearButton} onClick={e => this.selectOption(null, e)}>
-            <FormattedMessage id={'SelectSingleFilter.plainClear'} />
-          </button>
+          <div style={{ textAlign: "right" }}>
+            <i className={this.state.isOpen? css.down : css.up} onClick={this.toggleIsOpen}/>
+            <button className={css.clearButton} onClick={e => this.selectOption(null, e)}>
+              <FormattedMessage id={'SelectSingleFilter.plainClear'} />
+            </button>
+          </div>
         </div>
         <div className={optionsContainerClass}>
           {options.map(option => {

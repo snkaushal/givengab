@@ -18,40 +18,41 @@ const SearchFiltersPrimaryComponent = props => {
     onMapIconClick,
     isSearchMapOpenOnMobile,
     showPeople,
-toggleTypeOfList
+    toggleTypeOfList
   } = props;
 
   const hasNoResult = listingsAreLoaded && resultsCount === 0;
   const classes = classNames(rootClassName || css.root, className);
 
+  const PEOPLE = 'people';
+  const GIVES = 'gives';
+
   return (
     <div className={classes}>
       <div className={css.searchOptions}>
-        {listingsAreLoaded ? (
-          <div className={css.searchResultSummary}>
-            <span className={css.resultsFound}>
-              <FormattedMessage
-                id="SearchFiltersPrimary.foundResults"
-                values={{ count: resultsCount }}
-              />
-            </span>
+        <div>
+          {sortByComponent}
+          <div className={css.mapIcon} onClick={() => onMapIconClick(true)}>
+            <FormattedMessage
+              id={
+                isSearchMapOpenOnMobile
+                  ? 'SearchFiltersMobile.hideMap'
+                  : 'SearchFiltersMobile.showMap'
+              }
+              className={css.mapIconText}
+            />
           </div>
-        ) : null}
-        {sortByComponent}
-        <div className={css.mapIcon} onClick={() => onMapIconClick(true)}>
-          <FormattedMessage
-            id={
-              isSearchMapOpenOnMobile
-                ? 'SearchFiltersMobile.hideMap'
-                : 'SearchFiltersMobile.showMap'
-            }
-            className={css.mapIconText}
-          />
         </div>
-        <label className={css.container}>Show Gives
-          <input type="checkbox" checked={!showPeople} onClick={toggleTypeOfList}/>
-          <span className={css.checkmark}></span>
-        </label>
+        <div >
+          <label className={css.container}>Browse gives
+            <input type="radio" name="radioButtons" checked={!showPeople} onChange={toggleTypeOfList}/>
+            <span className={css.checkmark}></span>
+          </label>
+          <label className={css.container}>Browse users
+            <input type="radio" name="radioButtons" checked={showPeople} onChange={toggleTypeOfList}/>
+            <span className={css.checkmark}></span>
+          </label>
+        </div>
       </div>
 
       <div className={css.filters}>

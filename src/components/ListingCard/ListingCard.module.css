@@ -26,8 +26,8 @@
 
 /* Firefox doesn't support image aspect ratio inside flexbox */
 .aspectWrapper {
-  padding-bottom: 66.6667%; /* 3:2 Aspect Ratio */
-  background: var(--matterColorNegative); /* Loading BG color */
+  padding-bottom: 75%; /* 3:2 Aspect Ratio */
+  background: white /* Loading BG color */
 }
 
 .rootForImage {
@@ -38,7 +38,9 @@
   left: 0;
   right: 0;
   width: 100%;
-  border-radius: var(--borderRadius);
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 .info {
@@ -48,6 +50,7 @@
   padding: 20px 22px;
   justify-content: space-between;
   flex-wrap: wrap;
+  height: 100%;
 }
 
 .price {
@@ -57,6 +60,8 @@
   justify-content: flex-start;
   flex-shrink: 0;
   margin-right: 18px;
+  margin-top: auto;
+  padding-top: 10px;
 }
 
 .priceValue {
@@ -89,9 +94,9 @@
 }
 
 .mainInfo {
+  flex: 1 1 100%;
   display: flex;
   flex-direction: column;
-  max-width: 60%;
 }
 
 .title {

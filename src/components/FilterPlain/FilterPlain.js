@@ -9,7 +9,7 @@ import css from './FilterPlain.module.css';
 class FilterPlainComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: true };
+    this.state = { isOpen: false };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClear = this.handleClear.bind(this);
@@ -58,9 +58,12 @@ class FilterPlainComponent extends Component {
           <button type="button" className={css.labelButton} onClick={this.toggleIsOpen}>
             <span className={labelClass}>{label}</span>
           </button>
-          <button type="button" className={css.clearButton} onClick={this.handleClear}>
-            <FormattedMessage id={'FilterPlain.clear'} />
-          </button>
+          <div style={{ textAlign: "right" }}>
+            <i className={this.state.isOpen? css.down : css.up} onClick={this.toggleIsOpen}/>
+            <button type="button" className={css.clearButton} onClick={this.handleClear}>
+              <FormattedMessage id={'FilterPlain.clear'} />
+            </button>
+          </div>
         </div>
         <div
           id={id}

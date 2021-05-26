@@ -25,6 +25,27 @@
   margin-bottom: 24px;
 }
 
+.searchOptions {
+  & > div:first-child {
+    margin-right: 36px;
+    flex: 1 1 calc(20% - 36px);
+    display: flex;
+    flex-direction: row;
+  }
+
+  & > div:last-child {
+    margin-left: 24px;
+    
+    flex: 1 1 80%;
+    display: flex;
+    flex-direction: row;
+
+    & > label:first-child {
+      margin-right: 40px;
+    }
+  }
+}
+
 .searchResultSummary {
   @apply --marketplaceH4FontStyles;
   line-height: 20px;
@@ -158,67 +179,53 @@
 .container {
   display: block;
   position: relative;
+  padding: 2px 0 0 28px;
+  margin-bottom: 12px;
   cursor: pointer;
   font-size: 15px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  padding: 12px 20px;
-  margin-left: 8px;
 }
 
-/* Hide the browser's default checkbox */
+/* Hide the browser's default radio button */
 .container input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
-  height: 0;
-  width: 0;
 }
 
-/* Create a custom checkbox */
+/* Create a custom radio button */
 .checkmark {
   position: absolute;
-  top: 12;
+  top: 0;
   left: 0;
-  height: 15px;
-  width: 15px;
-  border-radius: 3px;
-  background-color: #eee;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px solid var(--marketplaceColor);
 }
 
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-
-/* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
-  background-color: var(--marketplaceColor);
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
+/* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
+/* Show the indicator (dot/circle) when checked */
 .container input:checked ~ .checkmark:after {
   display: block;
 }
 
-/* Style the checkmark/indicator */
+/* Style the indicator (dot/circle) */
 .container .checkmark:after {
-  left: 5px;
-  top: 2px;
-  width: 5px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+ 	top: 3px;
+	left: 3px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--marketplaceColor);
 }
