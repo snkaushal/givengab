@@ -29,6 +29,8 @@ const PROVIDER_COMMISSION_PERCENTAGE = -10;
  */
 exports.transactionLineItems = (listing, bookingData) => {
   const unitPrice = listing.attributes.price;
+  const percentageToOrg = listing.attributes.publicData && listing.attributes.publicData.percentageToOrg;
+  const percentage = percentageToOrg ? -parseInt(percentageToOrg, 10) : PROVIDER_COMMISSION_PERCENTAGE;
   const { startDate, endDate } = bookingData;
 
   /**
@@ -50,7 +52,7 @@ exports.transactionLineItems = (listing, bookingData) => {
   const providerCommission = {
     code: 'line-item/provider-commission',
     unitPrice: calculateTotalFromLineItems([booking]),
-    percentage: PROVIDER_COMMISSION_PERCENTAGE,
+    percentage: percentage,
     includeFor: ['provider'],
   };
 

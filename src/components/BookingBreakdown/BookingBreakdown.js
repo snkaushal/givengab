@@ -2,29 +2,27 @@
  * This component will show the booking info and calculated total price.
  * I.e. dates and other details related to payment decision in receipt format.
  */
-import React from 'react';
-import { oneOf, string } from 'prop-types';
-import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
 import classNames from 'classnames';
+import { oneOf, string } from 'prop-types';
+import React from 'react';
+import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
 import {
-  propTypes,
   LINE_ITEM_CUSTOMER_COMMISSION,
-  LINE_ITEM_PROVIDER_COMMISSION,
+  LINE_ITEM_PROVIDER_COMMISSION, propTypes
 } from '../../util/types';
-
+import css from './BookingBreakdown.module.css';
 import LineItemBookingPeriod from './LineItemBookingPeriod';
-import LineItemBasePriceMaybe from './LineItemBasePriceMaybe';
-import LineItemUnitPriceMaybe from './LineItemUnitPriceMaybe';
-import LineItemSubTotalMaybe from './LineItemSubTotalMaybe';
 import LineItemCustomerCommissionMaybe from './LineItemCustomerCommissionMaybe';
 import LineItemCustomerCommissionRefundMaybe from './LineItemCustomerCommissionRefundMaybe';
 import LineItemProviderCommissionMaybe from './LineItemProviderCommissionMaybe';
 import LineItemProviderCommissionRefundMaybe from './LineItemProviderCommissionRefundMaybe';
 import LineItemRefundMaybe from './LineItemRefundMaybe';
+import LineItemSubTotalMaybe from './LineItemSubTotalMaybe';
 import LineItemTotalPrice from './LineItemTotalPrice';
+import LineItemUnitPriceMaybe from './LineItemUnitPriceMaybe';
 import LineItemUnknownItemsMaybe from './LineItemUnknownItemsMaybe';
 
-import css from './BookingBreakdown.module.css';
+
 
 export const BookingBreakdownComponent = props => {
   const {
@@ -98,7 +96,7 @@ export const BookingBreakdownComponent = props => {
       />
       <LineItemUnitPriceMaybe transaction={transaction} unitType={unitType} intl={intl} />
 
-      <LineItemBasePriceMaybe transaction={transaction} unitType={unitType} intl={intl} />
+      {/* <LineItemBasePriceMaybe transaction={transaction} unitType={unitType} intl={intl} /> */}
       <LineItemUnknownItemsMaybe transaction={transaction} isProvider={isProvider} intl={intl} />
 
       <LineItemSubTotalMaybe

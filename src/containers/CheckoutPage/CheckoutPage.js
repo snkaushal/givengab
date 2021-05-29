@@ -1,36 +1,9 @@
-import React, { Component } from 'react';
-import { bool, func, instanceOf, object, oneOfType, shape, string } from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
-import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
-import config from '../../config';
-import routeConfiguration from '../../routeConfiguration';
-import { pathByRouteName, findRouteByRouteName } from '../../util/routes';
-import { propTypes, LINE_ITEM_NIGHT, LINE_ITEM_DAY, DATE_TYPE_DATETIME } from '../../util/types';
-import {
-  ensureListing,
-  ensureCurrentUser,
-  ensureUser,
-  ensureTransaction,
-  ensureBooking,
-  ensureStripeCustomer,
-  ensurePaymentMethodCard,
-} from '../../util/data';
-import { minutesBetween } from '../../util/dates';
-import { createSlug } from '../../util/urlHelpers';
-import {
-  isTransactionInitiateAmountTooLowError,
-  isTransactionInitiateListingNotFoundError,
-  isTransactionInitiateMissingStripeAccountError,
-  isTransactionInitiateBookingTimeNotAvailableError,
-  isTransactionChargeDisabledError,
-  isTransactionZeroPaymentError,
-  transactionInitiateOrderStripeErrors,
-} from '../../util/errors';
-import { formatMoney } from '../../util/currency';
-import { TRANSITION_ENQUIRE, txIsPaymentPending, txIsPaymentExpired } from '../../util/transaction';
+import { bool, func, instanceOf, object, oneOfType, shape, string } from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import {
   AvatarMedium,
   BookingBreakdown,
@@ -38,23 +11,54 @@ import {
   NamedLink,
   NamedRedirect,
   Page,
-  ResponsiveImage,
+  ResponsiveImage
 } from '../../components';
-import { StripePaymentForm } from '../../forms';
-import { isScrollingDisabled } from '../../ducks/UI.duck';
-import { confirmCardPayment, retrievePaymentIntent } from '../../ducks/stripe.duck';
+import config from '../../config';
 import { savePaymentMethod } from '../../ducks/paymentMethods.duck';
-
+import { confirmCardPayment, retrievePaymentIntent } from '../../ducks/stripe.duck';
+import { isScrollingDisabled } from '../../ducks/UI.duck';
+import { StripePaymentForm } from '../../forms';
+import routeConfiguration from '../../routeConfiguration';
+import { formatMoney } from '../../util/currency';
 import {
-  initiateOrder,
-  setInitialValues,
+  ensureBooking, ensureCurrentUser, ensureListing,
+
+
+
+
+
+  ensurePaymentMethodCard, ensureStripeCustomer, ensureTransaction, ensureUser
+} from '../../util/data';
+import { minutesBetween } from '../../util/dates';
+import {
+  isTransactionChargeDisabledError, isTransactionInitiateAmountTooLowError,
+
+
+  isTransactionInitiateBookingTimeNotAvailableError, isTransactionInitiateListingNotFoundError,
+  isTransactionInitiateMissingStripeAccountError,
+
+
+  isTransactionZeroPaymentError,
+  transactionInitiateOrderStripeErrors
+} from '../../util/errors';
+import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
+import { findRouteByRouteName, pathByRouteName } from '../../util/routes';
+import { TRANSITION_ENQUIRE, txIsPaymentExpired, txIsPaymentPending } from '../../util/transaction';
+import { DATE_TYPE_DATETIME, LINE_ITEM_DAY, LINE_ITEM_NIGHT, propTypes } from '../../util/types';
+import { createSlug } from '../../util/urlHelpers';
+import {
+  confirmPayment, initiateOrder,
+
+
+
+
+  sendMessage, setInitialValues,
   speculateTransaction,
-  stripeCustomer,
-  confirmPayment,
-  sendMessage,
+  stripeCustomer
 } from './CheckoutPage.duck';
-import { storeData, storedData, clearData } from './CheckoutPageSessionHelpers';
 import css from './CheckoutPage.module.css';
+import { clearData, storeData, storedData } from './CheckoutPageSessionHelpers';
+
 
 const STORAGE_KEY = 'CheckoutPage';
 
@@ -369,13 +373,26 @@ export class CheckoutPageComponent extends Component {
         ? { paymentMethod: stripePaymentMethodId }
         : selectedPaymentFlow === PAY_AND_SAVE_FOR_LATER_USE
         ? { setupPaymentMethodForSaving: true }
-        : {};
+          : {};
 
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = today.getFullYear();
+    const hh = today.getHours();
+    
+    const timenow = new Date(yyyy, mm, dd, hh);
+    const timeAfterOneHour = new Date(yyyy, mm, dd, hh + 1);
+    
+    debugger;
     const orderParams = {
       listingId: pageData.listing.id,
-      bookingStart: tx.booking.attributes.start,
-      bookingEnd: tx.booking.attributes.end,
-      quantity: pageData.bookingData ? pageData.bookingData.quantity : null,
+      // bookingStart: tx.booking.attributes.start,
+      // bookingEnd: tx.booking.attributes.end,
+      // quantity: pageData.bookingData ? pageData.bookingData.quantity : null,
+      bookingStart: (tx.booking && tx.booking.attributes && tx.tx.booking.attributes.start) || timenow,
+      bookingEnd: (tx.booking && tx.booking.attributes && tx.tx.booking.attributes.end) || timeAfterOneHour,
+      quantity: 1,
       ...optionalPaymentParams,
     };
 

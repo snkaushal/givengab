@@ -1,7 +1,7 @@
-import * as custom from './marketplace-custom-config.js';
-import defaultLocationSearches from './default-location-searches';
-import { defaultMCC, stripePublishableKey, stripeCountryDetails } from './stripe-config';
 import { currencyConfiguration } from './currency-config';
+import defaultLocationSearches from './default-location-searches';
+import * as custom from './marketplace-custom-config.js';
+import { defaultMCC, stripeCountryDetails, stripePublishableKey } from './stripe-config';
 
 const env = process.env.REACT_APP_ENV;
 const dev = process.env.REACT_APP_ENV === 'development';
@@ -32,7 +32,7 @@ const sortSearchByDistance = false;
 //
 // In a way, 'processAlias' defines which transaction process (or processes)
 // this particular web application is able to handle.
-const bookingProcessAlias = 'flex-hourly-default-process/release-1';
+const bookingProcessAlias = 'givengab-hourly-booking/release-1';
 
 // The transaction line item code for the main unit type in bookings.
 //

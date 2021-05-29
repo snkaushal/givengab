@@ -1,45 +1,62 @@
-import React from 'react';
-import { arrayOf, bool, number, oneOf, shape, string } from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
 import classNames from 'classnames';
-import {
-  txIsAccepted,
-  txIsCanceled,
-  txIsDeclined,
-  txIsEnquired,
-  txIsRequested,
-  txHasBeenDelivered,
-  txIsPaymentExpired,
-  txIsPaymentPending,
-} from '../../util/transaction';
-import { propTypes, DATE_TYPE_DATETIME } from '../../util/types';
-import { createSlug, stringify } from '../../util/urlHelpers';
-import { ensureCurrentUser, ensureListing } from '../../util/data';
-import { getMarketplaceEntities } from '../../ducks/marketplaceData.duck';
-import { isScrollingDisabled } from '../../ducks/UI.duck';
+import { arrayOf, bool, number, oneOf, shape, string } from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import {
   Avatar,
   BookingTimeInfo,
-  NamedLink,
+
+
+
+
+
+
+
+
+
+
+  Footer,
+  IconSpinner, LayoutSideNavigation,
+
+
+
+  LayoutWrapperFooter, LayoutWrapperMain,
+  LayoutWrapperSideNav,
+  LayoutWrapperTopbar, NamedLink,
   NotificationBadge,
   Page,
   PaginationLinks,
   TabNav,
-  LayoutSideNavigation,
-  LayoutWrapperMain,
-  LayoutWrapperSideNav,
-  LayoutWrapperTopbar,
-  LayoutWrapperFooter,
-  Footer,
-  IconSpinner,
-  UserDisplayName,
-} from '../../components';
-import { TopbarContainer, NotFoundPage } from '../../containers';
-import config from '../../config';
 
+
+
+
+
+
+
+  UserDisplayName
+} from '../../components';
+import config from '../../config';
+import { NotFoundPage, TopbarContainer } from '../../containers';
+import { getMarketplaceEntities } from '../../ducks/marketplaceData.duck';
+import { isScrollingDisabled } from '../../ducks/UI.duck';
+import { ensureCurrentUser, ensureListing } from '../../util/data';
+import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
+import {
+  txHasBeenDelivered, txIsAccepted,
+  txIsCanceled,
+  txIsDeclined,
+  txIsEnquired,
+
+
+  txIsPaymentExpired,
+  txIsPaymentPending, txIsRequested
+} from '../../util/transaction';
+import { DATE_TYPE_DATETIME, propTypes } from '../../util/types';
+import { createSlug, stringify } from '../../util/urlHelpers';
 import css from './InboxPage.module.css';
+
 
 const formatDate = (intl, date) => {
   return {
@@ -398,7 +415,8 @@ export const InboxPageComponent = props => {
           <h1 className={css.title}>
             <FormattedMessage id="InboxPage.title" />
           </h1>
-          {currentUserListing ? nav : <div className={css.navPlaceholder} />}
+          {nav}
+          {/* {currentUserListing ? nav : <div className={css.navPlaceholder} />} */}
         </LayoutWrapperSideNav>
         <LayoutWrapperMain>
           {error}
